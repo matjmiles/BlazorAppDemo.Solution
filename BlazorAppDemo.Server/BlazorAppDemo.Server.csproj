@@ -10,7 +10,6 @@
     <Folder Include="docs\img\RazorPages\" />
     <Folder Include="docs\img\PopulateRepository\" />
     <Folder Include="docs\img\Repository\" />
-    <Folder Include="Pages\Admin\Emails\" />
     <Folder Include="Pages\Admin\Statuses\" />
     <Folder Include="Pages\Public\" />
   </ItemGroup>

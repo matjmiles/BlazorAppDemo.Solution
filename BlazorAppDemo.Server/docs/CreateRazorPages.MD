@@ -1,7 +1,7 @@
-## Create Razor Pages (Web Templates
+## Create Razor Component (Web Templates
 
  
-Razor pages allow you to populate web templates dynamically with data. They
+Razor components allow you to populate web templates dynamically with data. They
 also support using The MudBlazor component library to format your pages
 using C# instead of JavaScript.
 
@@ -21,4 +21,15 @@ for each entity in your database. We will start with "Emails" and
 
 ![Create Project](/img/RazorPages/01Directory.png)
 
+4. Our first razor component will contain a list of Emails. Right click on
+the ==Pages/Admin/Emails== folder > Add > **Razor Component** (NOT razor page) <br/>
+Name the page "Index.Razor"
+
+5. Let's initialze the page:
+a. `@page "/Admin/Emails"` = the page directive
+b.`@using BlazorAppDemo.Shared.Print3dModels` = path to Models we will use on this page
+c. `@using MudBlazor`
+
+
+![Create Project](/img/RazorPages/02CreateListPage.png)
 
