@@ -258,7 +258,7 @@ public partial class Index
 
 18. Return to ==Index.razor.cs==
  
-19. Add the lines below to ==CreateEmailAsync()== before the try/catch statement.
+19. Add the lines below to ==CreateEmailAsync()==.
 a. Line 1 - setup a variable to hold parameters that will be passed to the MudDialog form
 that will be used to create a new Email.
 b. Line 2 = Add an instance of an emtpy EmailModel to parameters.
@@ -271,6 +271,21 @@ c. Line 3 = Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and
 2   parameters.Add("emailModel", new EmailModel());
 3   var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Create A New Email Entry", parameters).Result;
 ```
+19. After the new Email is added and the MudDialog box is closed, we want to re-run our
+search of all Emails so our new Email will show up in the list. So we re-execute the
+query to get a list of Emails and repopulate the grid.
+```
+ try
+        {
+            AllEmails = await DataService.GetEmails();
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error retreiving Emails{ex.Message}";
+            Logger.LogError(ex, "Error retreiving Emails");
+        }
+```
+
 20. Add the lines below to ==UpdateEmailAsync()== before the try/catch statement.
 a. Line 1 - setup a variable to hold parameters that will be passed to the MudDialog form
 b. Line 2 - Ppopulate the ==emailNeedToUpdate== variable with the record matching the emailId
