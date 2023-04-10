@@ -8,7 +8,47 @@
 @inject IDialogService _dialogService;
 
 
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="MudBlazor.Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" IconSize="Size.Large" Label="Add A New
+   Email" Class="ma-2" @onclick="(e => CreateEmailAsync())" />
+</MudContainer>
 
-@code {
+<MudTable Class="pa-10" Items="@AllEmails">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Emails</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Class="mlr-2">>EmailId</MudTh>
+        <MudTh Class="mlr-2">Name</MudTh>
+        <MudTh Class="mlr-2">Subject</MudTh>
+        <MudTh Class="mlr-2">Body</MudTh>
+        <MudTh Class="mlr-2">Update</MudTh>
+        <MudTh Class="mlr-2">Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Email#">@context.EmailId</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Subject">@context.Subject</MudTd>
+        <MudTd DataLabel="Body">@context.Body</MudTd>
 
+        <MudTd Datalabel="">
+            <MudFab @onclick="@(()=>UpdateEmailAsync(@context.EmailId))" StartIcon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Primary">
+            </MudFab>
+        </MudTd>
+        <MudTd Datalabel="">
+            <MudFab @onclick="@(()=>DeleteEmailAsync(@context.EmailId))" StartIcon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error">
+            </MudFab>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
 }
