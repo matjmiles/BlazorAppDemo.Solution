@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppDemo.Server", "BlazorAppDemo.Server\BlazorAppDemo.Server.csproj", "{857483E8-86E8-4BDB-841D-9BD7E67FBD7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppDemo.Server", "BlazorAppDemo.Server\BlazorAppDemo.Server.csproj", "{857483E8-86E8-4BDB-841D-9BD7E67FBD7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppDemo.Core", "BlazorAppDemo.Core\BlazorAppDemo.Core.csproj", "{DDC8A00E-257E-4F35-9CC1-6838D312E790}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppDemo.Core", "BlazorAppDemo.Core\BlazorAppDemo.Core.csproj", "{DDC8A00E-257E-4F35-9CC1-6838D312E790}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppDemo.Infrastructure", "BlazorAppDemo.Infrastructure\BlazorAppDemo.Infrastructure.csproj", "{FBB29ABB-F632-4ED0-AC64-2082ABB46C7D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppDemo.Infrastructure", "BlazorAppDemo.Infrastructure\BlazorAppDemo.Infrastructure.csproj", "{FBB29ABB-F632-4ED0-AC64-2082ABB46C7D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorAppDemo.Shared", "BlazorAppDemo.Shared\BlazorAppDemo.Shared.csproj", "{7D257FAB-C79D-4FB0-8072-814BCF5A2EDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorAppDemo.Shared", "BlazorAppDemo.Shared\BlazorAppDemo.Shared.csproj", "{7D257FAB-C79D-4FB0-8072-814BCF5A2EDB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -30,12 +30,23 @@ a. `@page "/Admin/Emails"` - the page directive
 b. `@using BlazorAppDemo.Shared.Print3dModels` - path to Models we will use on this page
 c. `@using MudBlazor` - Include the MudBlazor NuGet package we installed earlier. 
  This is necessary in order to use MudBlazor templates.
-d. `@inject Library.Core.Interfaces.IPrint3dRepository emailService` - Inject the
+d. `@inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository emailService` - Inject the
  ==Print3dRepository== so you can access the database functions.
 e. `@inject IDialogService _dialogService;` - the ==IDialogService is a .net class
 that we use to pass data between the index and detail page in a master-detail relationship.
  It is used in conjuction the a MudBlazor dialog box.
 d. Remove the ==@code block==. We will instead code in a "code behind" file.
+
+Here is the complete code block.
+```
+@page "/Admin/Emails
+
+@using BlazorAppDemo.Shared.Print3dModels
+@using MudBlazor
+
+@inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository emailService
+@inject IDialogService _dialogService
+```
 
 
 ![Create Project](/img/RazorPages/02CreateListPage.png)
@@ -47,26 +58,35 @@ d. Remove the ==@code block==. We will instead code in a "code behind" file.
 
  ![Create Project](/img/RazorPages/03CodeBehind.png)
 
- 7. Change "**public class Index**" to "**public partial class Index**".
+ 7. Add the follwing using statements to the top of the file
+```
+using BlazorAppDemo.Core.Interfaces;
+using BlazorAppDemo.Shared.Print3dModels;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+```
 
- 8. ==Inject== the service to access the functions listed in ==IPrint3dRepository==
+ 8. Change "**public class Index**" to "**public partial class Index**".
+
+ 9. Inside `public partial class Index` <br/>
+ ==Inject== the service to access the functions listed in ==IPrint3dRepository==
 
  ```
  [Inject] private IPrint3dRepository DataService { get; set; }
  ```
 
- 9. Create a list of EmailModels and give the list a name.
+ 10. Create a list of EmailModels and give the list a name.
 
  ```
  public List<EmailModel> AllEmails { get; set; }
  ```
 
- 10. Create a variable to hold error messages in case our database calls fail.
+ 11. Create a variable to hold error messages in case our database calls fail.
  ```
  public string SaveError { get; set; }
  ```
 
- 11. Create an ==OnInitializedAsync()== function that runs when the page first loads. 
+ 12. Create an ==OnInitializedAsync()== function that runs when the page first loads. 
  Inside this function, we want to get a list of all records from the ==Email== table. We
  place our database call inside of a try catch block. If the database call fails,
  the exception will be raised and populate the ==SaveError== variable.
@@ -85,20 +105,28 @@ d. Remove the ==@code block==. We will instead code in a "code behind" file.
         }
     }
 ```
-12. Create empty tasks for Create, Update, and Delete Email.
+13. Create empty tasks for Create, Update, and Delete Email.
 
 ```
     protected async Task CreateEmailAsync()
     {
     }
+
+    protected async Task UpdateEmailAsync(int EmailId)
+    {
+    }
+
+    protected async Task DeleteEmailAsync(int EmailId)
+    {
+    }
+
 ```
 
-13. The  ==Index.razor.cs== now looks like the code below.
+14. The  ==Index.razor.cs== full-code to this point is below.
 
 ```
 using BlazorAppDemo.Core.Interfaces;
 using BlazorAppDemo.Shared.Print3dModels;
-using Library.Core.Interfaces;
 using Microsoft.AspNetCore.Components;
 using MudBlazor;
 
@@ -139,7 +167,8 @@ public partial class Index
  }
  ```
 
- 14. Return to ==Index.razor==. We now begin adding MudBlazor components. 
+
+ 15. Return to ==Index.razor==. We now begin adding MudBlazor components. 
  Create a button by adding a **MudContainer class** and **MudFab** component
  a. This button will call the CreateEmailAsync function. The logic for this function
  is contained in the Index.razor.cs code behind file and is associated with the
@@ -152,7 +181,7 @@ public partial class Index
 </MudContainer>
 ```
 
-15. Create a table to hold a list of emails.
+16. Create a table to hold a list of emails.
 ```
 <MudTable Class="pa-10" Items="@AllEmails">
     <ToolBarContent>
@@ -187,7 +216,7 @@ public partial class Index
     </PagerContent>
 </MudTable>
 ```
-16. Create a **MudAlert** component to hold any error messages thrown during the rendering of this page.
+17. Create a **MudAlert** component to hold any error messages thrown during the rendering of this page.
 
 ```
 @if (!string.IsNullOrEmpty(SaveError))
@@ -198,7 +227,7 @@ public partial class Index
 }
 ```
 
-17. Here is the complete code for the ==Index.razor== page as it now stands
+18. Here is the complete code for the ==Index.razor== page as it now stands
 ```
 @page "/Admin/Emails"
 
@@ -255,50 +284,185 @@ public partial class Index
     </MudAlert>
 }
 ```
+19. Now create two new files for edits and updates. A razor component titled, "AddOrUpdateEmailDialog.razor" and
+a code-behind titled "AddOrUpdateEmailDialog.razor.cs". We will add the
+code for these files later. 
 
-18. Return to ==Index.razor.cs==
+![Create Project](/img/RazorPages/04AddOrUpdateEmail.png)
+
+
+20. Return to ==Index.razor.cs==
  
-19. Add the lines below to ==CreateEmailAsync()==.
-a. Line 1 - setup a variable to hold parameters that will be passed to the MudDialog form
+20. Add the lines below to ==CreateEmailAsync()==.
+a. Instantiate a variable to hold parameters that will be passed to the MudDialog form
 that will be used to create a new Email.
-b. Line 2 = Add an instance of an emtpy EmailModel to parameters.
-c. Line 3 = Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and show the template.
+b. Add an instance of an emtpy EmailModel to parameters.
+c. Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and show the template.
 
 
 
 ```
-1   var parameters = new DialogParameters();
-2   parameters.Add("emailModel", new EmailModel());
-3   var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Create A New Email Entry", parameters).Result;
+    var parameters = new DialogParameters();
+    parameters.Add("emailModel", new EmailModel());
+    var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Create A New Email Entry", parameters).Result;
 ```
-19. After the new Email is added and the MudDialog box is closed, we want to re-run our
-search of all Emails so our new Email will show up in the list. So we re-execute the
-query to get a list of Emails and repopulate the grid.
+21. After the new Email is added and the MudDialog box is closed, we want to re-run our
+search of all Emails so our new Email will show up in the list. Append the code
+below to the ==CreateEmailAsync()== function. This code re-executes the
+query to get a list of Emails and re-populate the grid.
 ```
- try
+        try
         {
             AllEmails = await DataService.GetEmails();
         }
         catch (Exception ex)
         {
             SaveError = $"Error retreiving Emails{ex.Message}";
-            Logger.LogError(ex, "Error retreiving Emails");
         }
 ```
 
-20. Add the lines below to ==UpdateEmailAsync()== before the try/catch statement.
-a. Line 1 - setup a variable to hold parameters that will be passed to the MudDialog form
-b. Line 2 - Ppopulate the ==emailNeedToUpdate== variable with the record matching the emailId
+22. Add the lines below to ==UpdateEmailAsync()==.
+a. Instantiate a variable to hold parameters that will be passed to the MudDialog form
+b. Populate the ==emailNeedToUpdate== variable with the record matching the emailId
 that was passed into the function.
-c. Line 3 - Add an instance of an EmailModel with the record retreived on line 2.
-d. Line 4 - Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and show the template.
+c. Add an instance of an EmailModel to parameters with the record retreived on line 2.
+d. Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and render the template.
 
 
 ```
-1  var parameters = new DialogParameters();
-2  var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId == EmailId);
-3  parameters.Add("emailModel", emailNeedToUpdate);
-4  var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Update A Email", parameters).Result;```
+    var parameters = new DialogParameters();
+    var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId == EmailId);
+    parameters.Add("emailModel", emailNeedToUpdate);
+    var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Update A Email", parameters).Result;
+```
+
+23. After the new Email is updated and the MudDialog box is closed, we want to re-run our
+search of all Emails so changes made to the modified Email will show up in the list. Append 
+the code below ==UpdateEmailAsync()== to re-execute the
+query to get a list of Emails and re-populate the grid.
+```
+        try
+        {
+            AllEmails = await DataService.GetEmails();
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error retreiving Emails{ex.Message}";
+        }
+```
+
+24. Add the lines below to ==DeleteEmailAsync(int EmailId)==.<br/>
+Instantiate a boolean nullable variable that contains a message box passed
+to the dialog service. This give the user the opportunity to confirm or cancel
+the deletion of the Email record.
+```
+  bool? result = await _dialogService.ShowMessageBox(
+  "Delete Confirmation",
+  "Deleting can not be undone!",
+  yesText: "Delete!", cancelText: "Cancel");
+```
+25. Append the code below to ==DeleteEmailAsync(int EmailId)== to test the 
+value of the result to see if it is null. If result is not null execute the 
+delete function in a try/catch statement.
+```
+if (result ?? false)
+{
+    try
+    {
+        await DataService.DeleteEmailAsync(EmailId);
+        AllEmails = await DataService.GetEmails();
+    }
+    catch (Exception ex)
+    {
+        SaveError = "You cannot delete this coupon. It is attached to a job";
+    }
+}
+```
+26. The complete code to this point for ==Index.razor.cs== 
+is shown below.
+```
+using BlazorAppDemo.Core.Interfaces;
+using BlazorAppDemo.Shared.Print3dModels;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+
+namespace BlazorAppDemo.Server.Pages.Admin.Emails;
+
+public partial class Index
+{
+
+    [Inject] private IPrint3dRepository DataService { get; set; }
+    public List<EmailModel> AllEmails { get; set; }
+    public string SaveError { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            AllEmails = await DataService.GetEmails();
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error retreiving Emails{ex.Message}";
+
+        }
+    }
+
+    protected async Task CreateEmailAsync()
+    {
+        var parameters = new DialogParameters();
+        parameters.Add("emailModel", new EmailModel());
+        var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Create A New Email Entry", parameters).Result;
+
+        try
+        {
+            AllEmails = await DataService.GetEmails();
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error retreiving Emails{ex.Message}";
+        }
+
+    }
+
+    protected async Task UpdateEmailAsync(int EmailId)
+    {
+        var parameters = new DialogParameters();
+        var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId == EmailId);
+        parameters.Add("emailModel", emailNeedToUpdate);
+        var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Update A Email", parameters).Result;
+
+        try
+        {
+            AllEmails = await DataService.GetEmails();
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error retreiving Emails{ex.Message}";
+        }
+    }
+
+    protected async Task DeleteEmailAsync(int EmailId)
+    {
+        bool? result = await _dialogService.ShowMessageBox(
+        "Delete Confirmation",
+        "Deleting can not be undone!",
+        yesText: "Delete!", cancelText: "Cancel");
+
+        if (result ?? false)
+        {
+            try
+            {
+                await DataService.DeleteEmailAsync(EmailId);
+                AllEmails = await DataService.GetEmails();
+            }
+            catch (Exception ex)
+            {
+                SaveError = "You cannot delete this coupon. It is attached to a job";
+            }
+        }
+    }
+}
 ```
 
  

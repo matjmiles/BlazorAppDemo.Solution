@@ -1,6 +1,6 @@
 ﻿using BlazorAppDemo.Shared.Print3dModels;
 
-namespace Library.Core.Interfaces;
+namespace BlazorAppDemo.Core.Interfaces;
 
 public interface IPrint3dRepository
 {
