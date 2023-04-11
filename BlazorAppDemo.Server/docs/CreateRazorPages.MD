@@ -235,7 +235,7 @@ public partial class Index
 @using MudBlazor
 
 
-@inject Library.Core.Interfaces.IPrint3dRepository emailService
+@inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository emailService
 @inject IDialogService _dialogService;
 
 

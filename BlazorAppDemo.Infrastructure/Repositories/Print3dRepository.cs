@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
 using BlazorAppDemo.Shared.Print3dModels;
-using Library.Core.Interfaces;
+using BlazorAppDemo.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using BlazorAppDemo.Core.Entities;
 
 namespace BlazorAppDemo.Infrastructure.Repositories
 {
@@ -18,7 +19,12 @@ namespace BlazorAppDemo.Infrastructure.Repositories
             _mapper = mapper;
         }
 
-
+        public async Task<List<EmailModel>> GetEmails()
+        {
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            List<Email> allEmails = db.Emails.ToList();
+            return _mapper.Map<List<EmailModel>>(allEmails);
+        }
         public Task CreateEmailAsync(EmailModel emailModel)
         {
             throw new NotImplementedException();
@@ -39,10 +45,7 @@ namespace BlazorAppDemo.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-        public Task<List<EmailModel>> GetEmails()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public Task<List<StatusModel>> GetStatuses()
         {

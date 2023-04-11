@@ -84,3 +84,5 @@ e. ==Microsoft.Extensions.DependencyInjection.Abstractions==
 f. ==MudBlazor==
 g. ==Serilog.AspNetCore==
 
+10. Configur MudBlazor templates.
+

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="docs\img\DbCalls\" />
     <Folder Include="docs\img\RazorPages\" />
     <Folder Include="docs\img\PopulateRepository\" />
     <Folder Include="docs\img\Repository\" />

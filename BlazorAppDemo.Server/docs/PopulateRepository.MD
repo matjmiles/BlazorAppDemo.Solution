@@ -6,12 +6,9 @@ file
 
 ```
 using AutoMapper;
-using FluentValidation;
-using Library.Core.Entities.Print3D;
-using Library.Core.Interfaces;
-using Library.Infrastructure.Validators;
-using Library.Shared.Print3dModels;
-using Microsoft.EntityFrameworkCore;
+using BlazorAppDemo.Shared.Print3dModels;
+using BlazorAppDemo.Core.Interfaces;
+using Microsoft.EntityFrameworkCore;;
 ```
 
 2. Add the "IDbContextFactory" and "IMapper" to the ==Print3dRepository==
@@ -28,8 +25,55 @@ class definition as shown below
             _mapper = mapper;
         }
 ```
+3. Create function definitions for all of the CRUD operations that you will use.
+```
+  public Task CreateEmailAsync(EmailModel emailModel)
+        {
+            throw new NotImplementedException();
+        }
 
-3. Now we are ready to create our first CRUD operation, a Read command
+        public Task CreateStatusAsync(StatusModel statusModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteEmailAsync(int emailId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteStatusAsync(int machineId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<EmailModel>> GetEmails()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<StatusModel>> GetStatuses()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<StatusModel>> GetStatusesByEmailId(int emailId)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateEmailAsync(EmailModel emailModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateStatusAsync(StatusModel statusModel)
+        {
+            throw new NotImplementedException();
+        }
+    }
+```
+3. Create the first CRUD operation, a Read command
 to get a list of emails using an asynchronous Task.
 ```
     // Email Functions 
