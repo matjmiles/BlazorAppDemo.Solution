@@ -1,14 +1,20 @@
+using BlazorAppDemo.Core.Interfaces;
 using BlazorAppDemo.Infrastructure.Repositories;
+using BlazorAppDemo.Server.BazorAppDemo.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-
+builder.Services.AddMudServices();
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 string connectionString = builder.Configuration.GetConnectionString("Print3dConnectionNew");
 builder.Services.AddDbContextFactory<Print3dContext>(options => options.UseSqlServer(connectionString));
+builder.Services.AddScoped<IPrint3dRepository, Print3dRepository>();
+
 
 
 

@@ -1,7 +1,13 @@
 ## Populate a Repository With Database Queries
 
- 
-1. Add the following using statements to the top of the Print3dRepository.cs
+1. Register the Print3dRepository in ==Program.cs== under the line<br/>
+**var builder = WebApplication.CreateBuilder(args);**
+```
+builder.Services.AddScoped<IPrint3dRepository, Print3dRepository>();
+```
+
+
+2. Add the following using statements to the top of the Print3dRepository.cs
 file
 
 ```
@@ -11,7 +17,7 @@ using BlazorAppDemo.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;;
 ```
 
-2. Add the "IDbContextFactory" and "IMapper" to the ==Print3dRepository==
+3. Add the "IDbContextFactory" and "IMapper" to the ==Print3dRepository==
 class definition as shown below
 
 ```
@@ -25,7 +31,7 @@ class definition as shown below
             _mapper = mapper;
         }
 ```
-3. Create function definitions for all of the CRUD operations that you will use.
+4. Create function definitions for all of the CRUD operations that you will use.
 ```
   public Task CreateEmailAsync(EmailModel emailModel)
         {
@@ -73,7 +79,7 @@ class definition as shown below
         }
     }
 ```
-3. Create the first CRUD operation, a Read command
+4. Create the first CRUD operation, a Read command
 to get a list of emails using an asynchronous Task.
 ```
     // Email Functions 
@@ -86,15 +92,16 @@ to get a list of emails using an asynchronous Task.
     }
 ```
 
-The function signature is `public async Task<List<EmailModel>> GetEmails()`
+The function signature is: <br/> 
+`public async Task<List<EmailModel>> GetEmails()`
 * Async means the function is asynchronous. This requires using the ==await== 
 command in the body of the function
-* The function is a `Task` the returns a list of `EmailModels`
-* You invoke the `Task` by calling `GetEmails()`
+* The function is a ==Task== the returns a list of ==EmailModels==
+* You invoke the ==Task== by calling ==`GetEmails()`==
 
 `await using Print3dContext db = await _print3DContext.CreateDbContextAsync();`
-* Since this is an asynchronous function you must use the `await` command
-* `db` is the object that is initialized as a DbContext
+* Since this is an asynchronous function you must use the ==await== command
+* ==db== is the object that is initialized as a ==DbContext==
 
 
 

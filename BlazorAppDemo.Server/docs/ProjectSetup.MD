@@ -84,5 +84,28 @@ e. ==Microsoft.Extensions.DependencyInjection.Abstractions==
 f. ==MudBlazor==
 g. ==Serilog.AspNetCore==
 
-10. Configur MudBlazor templates.
+10. Register MudBlazor package in ==Program.cs== under:<br/>
+**var builder = WebApplication.CreateBuilder(args);**
+```
+builder.Services.AddMudServices();
+```
+11. Add MudBlazor references in ==BlazorAppDemo.Server.Pages._Layout.cshtml
+a. First comment out these lines as show below.
+```
+@*    
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+*@
+```
+b. Add the following lines under <br/>
+**<component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />**
+```
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+```
+c. Just above the **</body>** tag add the line below:
+```
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+```
+
 
