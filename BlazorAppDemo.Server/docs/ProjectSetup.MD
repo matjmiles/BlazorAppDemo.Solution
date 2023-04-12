@@ -1,4 +1,4 @@
-## Setting Up a Blazor Server Project
+﻿## Setting Up a Blazor Server Project
 
 ### Initialize the Project
 
@@ -107,5 +107,83 @@ c. Just above the **</body>** tag add the line below:
 ```
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 ```
+d. The _Layout.cshtml is shown below.
+```
+@using Microsoft.AspNetCore.Components.Web
+@namespace BlazorAppDemo.Server.Pages
+@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <base href="~/" />
+    @*
+        <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link href="css/site.css" rel="stylesheet" />
+    
+    *@
+    <link href="BlazorAppDemo.Server.styles.css" rel="stylesheet" />
+    <component type="typeof(HeadOutlet)" render-mode="ServerPrerendered" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+</head>
+<body>
+    @RenderBody()
+
+    <div id="blazor-error-ui">
+        <environment include="Staging,Production">
+            An error has occurred. This application may no longer respond until reloaded.
+        </environment>
+        <environment include="Development">
+            An unhandled exception has occurred. See browser dev tools for details.
+        </environment>
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.server.js"></script>
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+</html>
+```
+12. Add a ==MudLayout== to **BlazorAppDemo.Server.Shared.MainLayout.razor**<br/>
+In the example below, I have created a layout with an app bar, side navigation, and
+main content area. 
+```
+@using MudBlazor
+@inherits LayoutComponentBase
+
+<PageTitle>3D Print</PageTitle>
+<MudThemeProvider />
+<MudDialogProvider FullWidth="true" />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Color="Color.Primary">
+        <MudText Typo="Typo.h4">3DPrint Administration</MudText>
+    </MudAppBar>
+    <MudMainContent>
+        <MudPaper Elevation="0">
+            <MudDrawerContainer Style="height:1200px" Class="mud-height-full">               
+                <MudDrawer Height="100%" Width="200px" @bind-Open="@openStart" Elevation="1" Variant="@DrawerVariant.Persistent">
+                    <MudNavMenu>
+                        <MudText Style="margin-top:10px; margin-left:15px;" Typo="Typo.h6">Admin Tasks</MudText>
+                        <MudNavLink Href="/Admin/Emails" Match="NavLinkMatch.All" StartIcon="@Icons.Material.Filled.Email">Emails</MudNavLink>
+                        <MudNavLink Href="/Admin/Statuses" Match="NavLinkMatch.All" StartIcon="@Icons.Material.Filled.Settings">Statuses</MudNavLink>
+                    </MudNavMenu>
+                </MudDrawer>
+                @Body
+            </MudDrawerContainer>
+        </MudPaper>
+    </MudMainContent>
+
+</MudLayout>
+
+@code {
+    bool openStart = true;
+}
+```
+
 
 

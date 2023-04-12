@@ -3,6 +3,7 @@ using BlazorAppDemo.Shared.Print3dModels;
 using BlazorAppDemo.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using BlazorAppDemo.Core.Entities;
+using BlazorAppDemo.Infrastructure.Validators;
 
 namespace BlazorAppDemo.Infrastructure.Repositories
 {
@@ -19,52 +20,83 @@ namespace BlazorAppDemo.Infrastructure.Repositories
             _mapper = mapper;
         }
 
-        public async Task<List<EmailModel>> GetEmails()
+        public async Task<List<EmailModel>> GetEmailsAsync()
         {
             await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
             List<Email> allEmails = db.Emails.ToList();
             return _mapper.Map<List<EmailModel>>(allEmails);
         }
-        public Task CreateEmailAsync(EmailModel emailModel)
+        public async Task CreateEmailAsync(EmailModel emailModel)
+        {
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            Email emailEntity = _mapper.Map<Email>(emailModel);
+            emailEntity.UpdatedAt = System.DateTime.Now;
+
+            // make sure the database entity is valid
+            EmailValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(emailEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+        }
+
+        public async Task UpdateEmailAsync(EmailModel emailModel)
         {
             throw new NotImplementedException();
         }
 
-        public Task CreateStatusAsync(StatusModel statusModel)
+        public async Task DeleteEmailAsync(int emailId)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteEmailAsync(int emailId)
+        // Status functions
+        public async Task<List<StatusModel>> GetStatusesAsync()
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteStatusAsync(int machineId)
+        public async Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId)
+        {
+
+            throw new NotImplementedException();
+        }
+
+        public async Task CreateStatusAsync(StatusModel statusModel)
+        {
+            throw new NotImplementedException();
+
+        }
+        public async Task UpdateStatusAsync(StatusModel statusModel)
         {
             throw new NotImplementedException();
         }
 
 
 
-        public Task<List<StatusModel>> GetStatuses()
+}
+
+
+
+        public async Task DeleteStatusAsync(int machineId)
         {
             throw new NotImplementedException();
         }
 
-        public Task<List<StatusModel>> GetStatusesByEmailId(int emailId)
+
+
+
+
+        public async Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId)
         {
             throw new NotImplementedException();
         }
 
-        public Task UpdateEmailAsync(EmailModel emailModel)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task UpdateStatusAsync(StatusModel statusModel)
-        {
-            throw new NotImplementedException();
-        }
+
+
     }
 }

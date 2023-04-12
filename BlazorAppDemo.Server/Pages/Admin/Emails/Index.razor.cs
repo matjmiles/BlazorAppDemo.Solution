@@ -16,7 +16,7 @@ public partial class Index
     {
         try
         {
-            AllEmails = await DataService.GetEmails();
+            AllEmails = await DataService.GetEmailsAsync();
         }
         catch (Exception ex)
         {
@@ -33,7 +33,7 @@ public partial class Index
 
         try
         {
-            AllEmails = await DataService.GetEmails();
+            AllEmails = await DataService.GetEmailsAsync();
         }
         catch (Exception ex)
         {
@@ -51,7 +51,7 @@ public partial class Index
 
         try
         {
-            AllEmails = await DataService.GetEmails();
+            AllEmails = await DataService.GetEmailsAsync();
         }
         catch (Exception ex)
         {
@@ -71,7 +71,7 @@ public partial class Index
             try
             {
                 await DataService.DeleteEmailAsync(EmailId);
-                AllEmails = await DataService.GetEmails();
+                AllEmails = await DataService.GetEmailsAsync();
             }
             catch (Exception ex)
             {

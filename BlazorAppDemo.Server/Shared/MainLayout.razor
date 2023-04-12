@@ -1,19 +1,31 @@
-﻿@inherits LayoutComponentBase
+﻿@using MudBlazor
+@inherits LayoutComponentBase
 
-<PageTitle>BlazorAppDemo.Server</PageTitle>
+<PageTitle>3D Print</PageTitle>
+<MudThemeProvider />
+<MudDialogProvider FullWidth="true" />
+<MudSnackbarProvider />
+<MudLayout>
+    <MudAppBar Color="Color.Primary">
+        <MudText Typo="Typo.h4">3DPrint Administration</MudText>
+    </MudAppBar>
+    <MudMainContent>
+        <MudPaper Elevation="0">
+            <MudDrawerContainer Style="height:1200px" Class="mud-height-full">               
+                <MudDrawer Height="100%" Width="200px" @bind-Open="@openStart" Elevation="1" Variant="@DrawerVariant.Persistent">
+                    <MudNavMenu>
+                        <MudText Style="margin-top:10px; margin-left:15px;" Typo="Typo.h6">Admin Tasks</MudText>
+                        <MudNavLink Href="/Admin/Emails" Match="NavLinkMatch.All" StartIcon="@Icons.Material.Filled.Email">Emails</MudNavLink>
+                        <MudNavLink Href="/Admin/Statuses" Match="NavLinkMatch.All" StartIcon="@Icons.Material.Filled.Settings">Statuses</MudNavLink>
+                    </MudNavMenu>
+                </MudDrawer>
+                @Body
+            </MudDrawerContainer>
+        </MudPaper>
+    </MudMainContent>
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
+</MudLayout>
 
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
+@code {
+    bool openStart = true;
+}

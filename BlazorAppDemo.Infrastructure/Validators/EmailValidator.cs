@@ -1,7 +1,7 @@
 ﻿using BlazorAppDemo.Core.Entities;
 using FluentValidation;
 
-namespace Library.Infrastructure.Validators;
+namespace BlazorAppDemo.Infrastructure.Validators;
 
 
 public class EmailValidator : AbstractValidator<Email>

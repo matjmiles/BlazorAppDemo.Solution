@@ -8,7 +8,7 @@ public interface IPrint3dRepository
 
 
     // Emails
-    Task<List<EmailModel>> GetEmails();
+    Task<List<EmailModel>> GetEmailsAsync();
 
     Task CreateEmailAsync(EmailModel emailModel);
 
@@ -22,9 +22,9 @@ public interface IPrint3dRepository
     
 
     // Statuses
-    Task<List<StatusModel>> GetStatuses();
+    Task<List<StatusModel>> GetStatusesAsync();
 
-    Task<List<StatusModel>> GetStatusesByEmailId(int emailId);
+    Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId);
 
     Task CreateStatusAsync(StatusModel statusModel);
 
