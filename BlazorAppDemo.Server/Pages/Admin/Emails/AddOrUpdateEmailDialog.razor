@@ -1,3 +1,22 @@
 ﻿@using BlazorAppDemo.Core.Entities
 @using BlazorAppDemo.Core.Interfaces
 @using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField T="string" Label="Name" @bind-Value="emailModel.Name" />
+        <MudTextField T="string" Label="Subject" @bind-Value="emailModel.Subject" Lines="3" />
+        <MudTextField T="string" Label="Body" @bind-Value="emailModel.Body" Lines="3" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}

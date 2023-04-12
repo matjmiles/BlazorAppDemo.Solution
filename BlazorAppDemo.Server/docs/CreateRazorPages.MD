@@ -1,9 +1,11 @@
-## Create Razor Component (Web Templates
+## Create Razor Component (Web Templates)
 
  
 Razor components allow you to populate web templates dynamically with data. They
 also support using The MudBlazor component library to format your pages
 using C# instead of JavaScript.
+
+### Create the Directory Structure
 
 1. Under the main project, ==BlazorAppDemo.Server== there is a directory
 created by default titled ==Pages==. Delete the following default pages
@@ -20,6 +22,8 @@ for each entity in your database. We will start with "Emails" and
 "Statuses" The directory structure should now look like the image below.
 
 ![Create Project](/img/RazorPages/01Directory.png)
+
+### Create the Master or List Page 
 
 4. Our first razor component will contain a list of Emails. Right click on
 the ==Pages/Admin/Emails== folder > Add > **Razor Component** (NOT razor page) <br/>
@@ -112,11 +116,11 @@ using MudBlazor;
     {
     }
 
-    protected async Task UpdateEmailAsync(int EmailId)
+    protected async Task UpdateEmailAsync(int emailId)
     {
     }
 
-    protected async Task DeleteEmailAsync(int EmailId)
+    protected async Task DeleteEmailAsync(int emailId)
     {
     }
 
@@ -167,8 +171,7 @@ public partial class Index
  }
  ```
 
-
- 15. Return to ==Index.razor==. We now begin adding MudBlazor components. 
+  15. Return to ==Index.razor==. We now begin adding MudBlazor components. 
  Create a button by adding a **MudContainer class** and **MudFab** component
  a. This button will call the CreateEmailAsync function. The logic for this function
  is contained in the Index.razor.cs code behind file and is associated with the
@@ -298,8 +301,6 @@ a. Instantiate a variable to hold parameters that will be passed to the MudDialo
 that will be used to create a new Email.
 b. Add an instance of an emtpy EmailModel to parameters.
 c. Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and show the template.
-
-
 
 ```
     var parameters = new DialogParameters();
@@ -463,6 +464,189 @@ public partial class Index
         }
     }
 }
+```
+### Code Out the AddOrUpdateEmailDialog.razor Component
+1. Open ==BlazorAppDemo.Server.Pages.Admin.Emails.AddOrUpdateEmailDialog.razor==
+
+2. Add the MudDialog as shown below.
+```
+@using BlazorAppDemo.Core.Entities
+@using BlazorAppDemo.Core.Interfaces
+@using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField T="string" Label="Name" @bind-Value="emailModel.Name" />
+        <MudTextField T="string" Label="Subject" @bind-Value="emailModel.Subject" Lines="3" />
+        <MudTextField T="string" Label="Body" @bind-Value="emailModel.Body" Lines="3" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}
+```
+* Values from the ==emailModel== are bound to ==MudTextFields== using ==@bind-Value
+* The logic for the ==OnClick== events will be added to the code-behind
+* A ==MudAlert== is added to display any errors
+
+3. Open the code-behind file ==BlazorAppDemo.Server.Pages.Admin.Emails.AddOrUpdateEmailDialog.razor.cs==
+ and add the following lines.
+ ```
+using BlazorAppDemo.Core.Interfaces;
+using BlazorAppDemo.Shared.Print3dModels;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+
+namespace BlazorAppDemo.Server.Pages.Admin.Emails;
+
+public partial class AddOrUpdateEmailDialog
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public EmailModel emailModel { get; set; } = new EmailModel();
+
+    [Inject] private IPrint3dRepository DataService { get; set; }
+
+    public string SaveError { get; set; }
+
+}
+```
+* The class signature should be ==public partial class AddOrUpdateEmailDialog==
+* We instantiate a ==CascadingParameter== of ==MudDialogInstance== because this page
+ is a child of ==Index.razor==. 
+* We instantiate an instance of an EmailModel to hold the data for a single record.
+* We inject the ==Iprint3dRepository DataService== so that we have access to 
+database calls.
+* We instantiate the ==SaveError== variable to hold any errors that my occur.
+
+4. Add logic for the ==Cancel()== function
+```
+private void Cancel()
+{
+    MudDialog.Cancel();
+}
+```
+* The function is ==void== because it does not return a value
+* We access the built in method of MudDialog to cancel the operation and
+close the Dialog box.
+
+5. Add logic for the ==Submit()== function. The ==Submit()== function
+handles both inserts and updates.
+
+```
+protected async Task Submit()
+{
+    var dialog = DialogResult.Ok<EmailModel>(emailModel);
+    EmailModel emailMod = dialog.Data as EmailModel;
+
+}
+```
+* The ==DialogResult== is a MudBlazor class.
+* The ==emailMod== variable is populated from the data captured in ==dialog.Data==
+ and is an instance of an ==EmailModel==
+
+```
+ if (emailModel.EmailId == 0)
+        {
+            try
+            {
+                await DataService.CreateEmailAsync(emailMod);
+                MudDialog.Close();
+            }
+            catch (Exception ex)
+            {
+                SaveError = $"Error creating Email:{ex.Message}";
+            }
+
+        } else
+        {
+            try
+            {
+                await DataService.UpdateEmailAsync(emailMod);
+                MudDialog.Close();
+            }
+
+            catch (Exception ex)
+            {
+                SaveError = $"Error updating Email:{ex.Message}";
+            }
+
+        }
+                
+```
+* If EmailId does **not exist** call the Create function. If that call fails, 
+catch and display the error message. 
+* If EmailId **does exist**, then call the Update function. If that call fails, 
+catch and display the error message.
+
+Below is the complete code for the page.
+```
+using BlazorAppDemo.Core.Interfaces;
+using BlazorAppDemo.Shared.Print3dModels;
+using Microsoft.AspNetCore.Components;
+using MudBlazor;
+
+namespace BlazorAppDemo.Server.Pages.Admin.Emails;
+
+public partial class AddOrUpdateEmailDialog
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public EmailModel emailModel { get; set; } = new EmailModel();
+
+    [Inject] private IPrint3dRepository DataService { get; set; }
+
+    public string SaveError { get; set; }
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    protected async Task Submit()
+    {
+    var dialog = DialogResult.Ok<EmailModel>(emailModel);
+    EmailModel emailMod = dialog.Data as EmailModel;
+
+     if (emailModel.EmailId == 0)
+        {
+            try
+            {
+                await DataService.CreateEmailAsync(emailMod);
+                MudDialog.Close();
+            }
+            catch (Exception ex)
+            {
+                SaveError = $"Error creating Email:{ex.Message}";
+            }
+
+        } else
+        {
+            try
+            {
+                await DataService.UpdateEmailAsync(emailMod);
+                MudDialog.Close();
+            }
+
+            catch (Exception ex)
+            {
+                SaveError = $"Error updating Email:{ex.Message}";
+            }
+
+        }
+
+    }
+
+}
+
 ```
 
  
