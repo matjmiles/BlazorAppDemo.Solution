@@ -27,6 +27,7 @@ sure to have the correct project selected under location.
 ![Project Explorer View](/img/ProjectSetup/05ProjectExplorer.png)
 
 ### Add Project References
+<a name="#AddProjectReferences"></a>
 
 1. Once you have created the project and class libraries, you must
 create references between them. To do this, you must right click
@@ -52,12 +53,7 @@ c. BlazorAppDemo.Server: create reference to BlazorAppDemo.Infrastructure
 
 d. BlazorAppDemo.Shared does not require any references.
 
-
-
-
-
-
-### Add the Necessary NuGet Packages
+### Add the Required NuGet Packages
 
 6. Open the NuGet Package Manager.
 
@@ -147,6 +143,8 @@ d. The _Layout.cshtml is shown below.
     <script src="_content/MudBlazor/MudBlazor.min.js"></script>
 </body>
 </html>
+
+### Configure the Layout Using MudBlazor
 ```
 12. Add a ==MudLayout== to **BlazorAppDemo.Server.Shared.MainLayout.razor**<br/>
 In the example below, I have created a layout with an app bar, side navigation, and
