@@ -21,7 +21,7 @@ that are created initially with the project.
 for each entity in your database. We will start with "Emails" and
 "Statuses" The directory structure should now look like the image below.
 
-![Create Project](/img/RazorPages/01Directory.png)
+![Create Project](img/RazorPages/01Directory.png)
 
 ### Create the Master or List Page 
 
@@ -53,14 +53,14 @@ Here is the complete code block.
 ```
 
 
-![Create Project](/img/RazorPages/02CreateListPage.png)
+![Create Project](img/RazorPages/02CreateListPage.png)
 
 6. To create the code behind page, right click on the ==Pages > Admin > Emails==
  click Add > Class > name the code behind page the same name as the razor page
  but with ".cs" appended to it. So name the file "Index.razor.cs". You will notice
  the code behind page shows up as a child of "Index.razor".
 
- ![Create Project](/img/RazorPages/03CodeBehind.png)
+ ![Create Project](img/RazorPages/03CodeBehind.png)
 
  7. Add the follwing using statements to the top of the file
 ```
@@ -291,7 +291,7 @@ public partial class Index
 a code-behind titled "AddOrUpdateEmailDialog.razor.cs". We will add the
 code for these files later. 
 
-![Create Project](/img/RazorPages/04AddOrUpdateEmail.png)
+![Create Project](img/RazorPages/04AddOrUpdateEmail.png)
 
 
 20. Return to ==Index.razor.cs==

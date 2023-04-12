@@ -64,7 +64,7 @@ namespace BlazorAppDemo.Infrastructure.Repositories
 4. Notice that ==IPrint3dRepository== is underlined in red. Right click
 on the word and select > Quick Actions and Refactoring > Implement Interface
 
-![Create Project](/img/Repository/01RepositoryScaffold.png)
+![Create Project](img/Repository/01RepositoryScaffold.png)
 
 5. The system will find all of the functions defined in IPrint3dRepository
 and generate code snippetts for each one as show below.
@@ -137,7 +137,7 @@ Place the following lines below ==CreateBuilder== as shown below. <br/>
 string connectionString = builder.Configuration.GetConnectionString("Print3dConnectionNew");
 builder.Services.AddDbContextFactory<Print3dContext>(options => options.UseSqlServer(connectionString));
 ```
-![Create Project](/img/Repository/02RegisterServiceInProgramCS.png)
+![Create Project](img/Repository/02RegisterServiceInProgramCS.png)
 
 
 

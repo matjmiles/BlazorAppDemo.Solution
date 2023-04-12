@@ -3,7 +3,7 @@
 Serilogs are NuGet package that you can use to implement logging in a Blazor Application.
  We already installed the Serilog NuGet package.
 
-![Create Project](/img/Serilogs/01SeriNuGet.png)
+![Create Project](img/Serilogs/01SeriNuGet.png)
 
 1. Configure Serilogs in ==appsettings.json== as shown below.
 

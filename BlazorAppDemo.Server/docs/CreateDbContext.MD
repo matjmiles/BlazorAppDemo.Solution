@@ -23,7 +23,7 @@ to </br>
     }
 ```
 
-![Create Project](/img/DbContext/03InterFaceComplete.png)
+![Create Project](img/DbContext/03InterFaceComplete.png)
 
 
 

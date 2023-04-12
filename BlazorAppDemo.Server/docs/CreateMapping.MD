@@ -68,7 +68,7 @@ namespace Library.Infrastructure
 ```
 7. Lastly, add the reference to the Mapping Profile in ==Program.cs==
 
-![Create Project](/img/Mapping/01AddMapProfileToProgamCS.png)
+![Create Project](img/Mapping/01AddMapProfileToProgamCS.png)
 
 `
 

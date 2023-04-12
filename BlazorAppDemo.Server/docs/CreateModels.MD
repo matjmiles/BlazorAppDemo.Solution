@@ -19,7 +19,7 @@ b. Add the getters and setters.
 c. Remove unnecessary using statements
 
 
-![Create Project](/img/Models/01EmailModel.png)
+![Create Project](img/Models/01EmailModel.png)
 
 4. Create a new class for StatusModel
 a. Change the signature from:
@@ -29,4 +29,4 @@ b. Add the getters and setters.
 c. Remove unnecessary using statements
 d. Add the foreign key relationships
 
-![Create Project](/img/Models/02StatusModel.png)
+![Create Project](img/Models/02StatusModel.png)
