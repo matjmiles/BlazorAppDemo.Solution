@@ -16,9 +16,6 @@ public interface IPrint3dRepository
 
     Task DeleteEmailAsync(int emailId);
 
-    //Task<Object> GetEmailByIdAsync(int statusId);
-
-
     
 
     // Statuses

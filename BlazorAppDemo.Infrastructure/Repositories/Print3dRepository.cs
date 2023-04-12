@@ -45,12 +45,31 @@ namespace BlazorAppDemo.Infrastructure.Repositories
 
         public async Task UpdateEmailAsync(EmailModel emailModel)
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            Email emailEntity = _mapper.Map<Email>(emailModel);
+            emailEntity.UpdatedAt = System.DateTime.Now;
+
+            // make sure the database entity is valid
+            EmailValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(emailEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+
+            db.Emails.Update(emailEntity);
+            await db.SaveChangesAsync();
         }
 
         public async Task DeleteEmailAsync(int emailId)
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            var emailToRemove = await db.Emails.FindAsync(emailId);
+
+            db.Emails.Remove(emailToRemove);
+            await db.SaveChangesAsync();
         }
 
         // Status functions
@@ -75,28 +94,10 @@ namespace BlazorAppDemo.Infrastructure.Repositories
             throw new NotImplementedException();
         }
 
-
-
-}
-
-
-
         public async Task DeleteStatusAsync(int machineId)
         {
             throw new NotImplementedException();
         }
-
-
-
-
-
-        public async Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId)
-        {
-            throw new NotImplementedException();
-        }
-
-
-
 
     }
 }
