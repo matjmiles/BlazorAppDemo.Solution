@@ -2,7 +2,7 @@
 
 ### [Initialize the Project](ProjectSetup.MD)
 
-* [Add Project References](ProjectSetup.MD#AddProjectReferences)
+* [Add Project References](ProjectSetup.MD#addprojectreferences)
 
 * Add the Required NuGet Packages
 

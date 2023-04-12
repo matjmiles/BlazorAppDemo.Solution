@@ -27,7 +27,7 @@ sure to have the correct project selected under location.
 ![Project Explorer View](/img/ProjectSetup/05ProjectExplorer.png)
 
 ### Add Project References
-<a name="#AddProjectReferences"></a>
+<a name="#addprojectreferences"></a>
 
 1. Once you have created the project and class libraries, you must
 create references between them. To do this, you must right click
