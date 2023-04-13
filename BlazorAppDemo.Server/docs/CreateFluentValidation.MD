@@ -3,8 +3,8 @@
  
 Fluent Validation is a NuGet package that allows you to validate data before it
 is submitted to the database to ensure that it follows all of the rules setup for
-each table. During setup we already installed the Nuget packages ==FluentValidation==
-and ==FluentValidation.DependencyInjectionExtensions==
+each table. During setup we already installed the Nuget packages **FluentValidation**
+and **FluentValidation.DependencyInjectionExtensions**
 
 1. Right click on BlazorAppDemo.Infrastructure > Add > New Folder > name the
 folder "Validators"

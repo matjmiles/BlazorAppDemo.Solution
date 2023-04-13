@@ -5,10 +5,10 @@ perform CRUD operations. However, once the date is received by the Entity
 Framework application, the entity data is mapped to models which handle the
 data until it is passed back to the entities to complete CRUD operations.
 
-1. Create a folder called ==Print3dModels== under ==BlazorAppDemo.Shared==
+1. Create a folder called **Print3dModels** under **BlazorAppDemo.Shared**
 
-2. Create a new class inside the ==Print3dModels== folder called
-==EmailModel.cs==. The naming convention is to use the same name as the
+2. Create a new class inside the **Print3dModels** folder called
+**EmailModel.cs**. The naming convention is to use the same name as the
 corresponding entity with the word "Model" appended to it.
 
 3. Configure EmailModel.

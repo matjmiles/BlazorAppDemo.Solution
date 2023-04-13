@@ -8,16 +8,16 @@ back to the entities, and the data in the entities is committed to the database 
 operations. To create a data map, follow the steps below.
 
 
-1. Register the ==MappingProfile== in Program.cs under: <br/>
+1. Register the MappingProfile in Program.cs under: <br/>
 **var builder = WebApplication.CreateBuilder(args);**
 ```
 builder.Services.AddAutoMapper(typeof(MappingProfile));
 ```
 
-1. Right click on the ==BlazorAppDemo.Infrastructre== Class library > Add > Class <br/>
+1. Right click on the **BlazorAppDemo.Infrastructre** Class library > Add > Class <br/>
 Name the new class "MappingProfile.cs
 
-2. Right click on the new ==Repositories== folder > Add > Class <br/>
+2. Right click on the new **Repositories** folder > Add > Class <br/>
 Name the Class "Print3dRepository.cs"
 
 3. Add the following using statements to the top of the file
@@ -66,7 +66,7 @@ namespace Library.Infrastructure
     }
 }
 ```
-7. Lastly, add the reference to the Mapping Profile in ==Program.cs==
+7. Lastly, add the reference to the Mapping Profile in **Program.cs**
 
 ![Create Project](img/Mapping/01AddMapProfileToProgamCS.png)
 

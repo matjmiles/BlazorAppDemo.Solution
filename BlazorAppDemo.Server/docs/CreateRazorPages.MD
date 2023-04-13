@@ -7,17 +7,17 @@ using C# instead of JavaScript.
 
 ### Create the Directory Structure
 
-1. Under the main project, ==BlazorAppDemo.Server== there is a directory
-created by default titled ==Pages==. Delete the following default pages
+1. Under the main project, **BlazorAppDemo.Server** there is a directory
+created by default titled **Pages**. Delete the following default pages
 that are created initially with the project.
 * "Counter.razor"
 * "FetchData.razor"
 
-2. Under ==BlazorAppDemo.Server/Pages== create two sub-directories
+2. Under **BlazorAppDemo.Server/Pages** create two sub-directories
 * "Admin" - for administrative pages
 * "Public" - for public facing pages
 
-3. Under ==BlazorAppDemo.Server/Pages/Admin== create a sub-directory 
+3. Under **BlazorAppDemo.Server/Pages/Admin** create a sub-directory 
 for each entity in your database. We will start with "Emails" and
 "Statuses" The directory structure should now look like the image below.
 
@@ -26,7 +26,7 @@ for each entity in your database. We will start with "Emails" and
 ### Create the Master or List Page 
 
 4. Our first razor component will contain a list of Emails. Right click on
-the ==Pages/Admin/Emails== folder > Add > **Razor Component** (NOT razor page) <br/>
+the **Pages/Admin/Emails** folder > Add > **Razor Component** (NOT razor page) <br/>
 Name the page "Index.Razor"
 
 5. Let's initialze the page:
@@ -35,11 +35,11 @@ b. `@using BlazorAppDemo.Shared.Print3dModels` - path to Models we will use on t
 c. `@using MudBlazor` - Include the MudBlazor NuGet package we installed earlier. 
  This is necessary in order to use MudBlazor templates.
 d. `@inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository emailService` - Inject the
- ==Print3dRepository== so you can access the database functions.
-e. `@inject IDialogService _dialogService;` - the ==IDialogService is a .net class
+ **Print3dRepository** so you can access the database functions.
+e. `@inject IDialogService _dialogService;` - the **IDialogService is a .net class
 that we use to pass data between the index and detail page in a master-detail relationship.
  It is used in conjuction the a MudBlazor dialog box.
-d. Remove the ==@code block==. We will instead code in a "code behind" file.
+d. Remove the **@code block**. We will instead code in a "code behind" file.
 
 Here is the complete code block.
 ```
@@ -55,7 +55,7 @@ Here is the complete code block.
 
 ![Create Project](img/RazorPages/02CreateListPage.png)
 
-6. To create the code behind page, right click on the ==Pages > Admin > Emails==
+6. To create the code behind page, right click on the **Pages > Admin > Emails**
  click Add > Class > name the code behind page the same name as the razor page
  but with ".cs" appended to it. So name the file "Index.razor.cs". You will notice
  the code behind page shows up as a child of "Index.razor".
@@ -73,7 +73,7 @@ using MudBlazor;
  8. Change "**public class Index**" to "**public partial class Index**".
 
  9. Inside `public partial class Index` <br/>
- ==Inject== the service to access the functions listed in ==IPrint3dRepository==
+ **Inject** the service to access the functions listed in **IPrint3dRepository**
 
  ```
  [Inject] private IPrint3dRepository DataService { get; set; }
@@ -90,10 +90,10 @@ using MudBlazor;
  public string SaveError { get; set; }
  ```
 
- 12. Create an ==OnInitializedAsync()== function that runs when the page first loads. 
- Inside this function, we want to get a list of all records from the ==Email== table. We
+ 12. Create an **OnInitializedAsync()** function that runs when the page first loads. 
+ Inside this function, we want to get a list of all records from the **Email** table. We
  place our database call inside of a try catch block. If the database call fails,
- the exception will be raised and populate the ==SaveError== variable.
+ the exception will be raised and populate the **SaveError** variable.
  
  ```
     protected override async Task OnInitializedAsync()
@@ -126,7 +126,7 @@ using MudBlazor;
 
 ```
 
-14. The  ==Index.razor.cs== full-code to this point is below.
+14. The  **Index.razor.cs** full-code to this point is below.
 
 ```
 using BlazorAppDemo.Core.Interfaces;
@@ -171,11 +171,11 @@ public partial class Index
  }
  ```
 
-  15. Return to ==Index.razor==. We now begin adding MudBlazor components. 
+  15. Return to **Index.razor**. We now begin adding MudBlazor components. 
  Create a button by adding a **MudContainer class** and **MudFab** component
  a. This button will call the CreateEmailAsync function. The logic for this function
  is contained in the Index.razor.cs code behind file and is associated with the
- ==@onclick== event.
+ **@onclick** event.
 
  ```
  <MudContainer Class="d-flex justify-center mb-2">
@@ -230,7 +230,7 @@ public partial class Index
 }
 ```
 
-18. Here is the complete code for the ==Index.razor== page as it now stands
+18. Here is the complete code for the **Index.razor** page as it now stands
 ```
 @page "/Admin/Emails"
 
@@ -294,13 +294,13 @@ code for these files later.
 ![Create Project](img/RazorPages/04AddOrUpdateEmail.png)
 
 
-20. Return to ==Index.razor.cs==
+20. Return to **Index.razor.cs**
  
-20. Add the lines below to ==CreateEmailAsync()==.
+20. Add the lines below to **CreateEmailAsync()**.
 a. Instantiate a variable to hold parameters that will be passed to the MudDialog form
 that will be used to create a new Email.
 b. Add an instance of an emtpy EmailModel to parameters.
-c. Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and show the template.
+c. Pass the parameters to **AddOrUpdateEmailDialog.razor** template and show the template.
 
 ```
     var parameters = new DialogParameters();
@@ -309,7 +309,7 @@ c. Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and show the
 ```
 21. After the new Email is added and the MudDialog box is closed, we want to re-run our
 search of all Emails so our new Email will show up in the list. Append the code
-below to the ==CreateEmailAsync()== function. This code re-executes the
+below to the **CreateEmailAsync()** function. This code re-executes the
 query to get a list of Emails and re-populate the grid.
 ```
         try
@@ -322,24 +322,24 @@ query to get a list of Emails and re-populate the grid.
         }
 ```
 
-22. Add the lines below to ==UpdateEmailAsync()==.
+22. Add the lines below to **UpdateEmailAsync()**.
 a. Instantiate a variable to hold parameters that will be passed to the MudDialog form
-b. Populate the ==emailNeedToUpdate== variable with the record matching the emailId
+b. Populate the **emailNeedToUpdate** variable with the record matching the emailId
 that was passed into the function.
 c. Add an instance of an EmailModel to parameters with the record retreived on line 2.
-d. Pass the parameters to ==AddOrUpdateEmailDialog.razor== template and render the template.
+d. Pass the parameters to **AddOrUpdateEmailDialog.razor** template and render the template.
 
 
 ```
     var parameters = new DialogParameters();
-    var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId == EmailId);
+    var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId ** EmailId);
     parameters.Add("emailModel", emailNeedToUpdate);
     var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Update A Email", parameters).Result;
 ```
 
 23. After the new Email is updated and the MudDialog box is closed, we want to re-run our
 search of all Emails so changes made to the modified Email will show up in the list. Append 
-the code below ==UpdateEmailAsync()== to re-execute the
+the code below **UpdateEmailAsync()** to re-execute the
 query to get a list of Emails and re-populate the grid.
 ```
         try
@@ -352,7 +352,7 @@ query to get a list of Emails and re-populate the grid.
         }
 ```
 
-24. Add the lines below to ==DeleteEmailAsync(int EmailId)==.<br/>
+24. Add the lines below to **DeleteEmailAsync(int EmailId)**.<br/>
 Instantiate a boolean nullable variable that contains a message box passed
 to the dialog service. This give the user the opportunity to confirm or cancel
 the deletion of the Email record.
@@ -362,7 +362,7 @@ the deletion of the Email record.
   "Deleting can not be undone!",
   yesText: "Delete!", cancelText: "Cancel");
 ```
-25. Append the code below to ==DeleteEmailAsync(int EmailId)== to test the 
+25. Append the code below to **DeleteEmailAsync(int EmailId)** to test the 
 value of the result to see if it is null. If result is not null execute the 
 delete function in a try/catch statement.
 ```
@@ -379,7 +379,7 @@ if (result ?? false)
     }
 }
 ```
-26. The complete code to this point for ==Index.razor.cs== 
+26. The complete code to this point for **Index.razor.cs** 
 is shown below.
 ```
 using BlazorAppDemo.Core.Interfaces;
@@ -466,7 +466,7 @@ public partial class Index
 }
 ```
 ### Code Out the AddOrUpdateEmailDialog.razor Component
-1. Open ==BlazorAppDemo.Server.Pages.Admin.Emails.AddOrUpdateEmailDialog.razor==
+1. Open **BlazorAppDemo.Server.Pages.Admin.Emails.AddOrUpdateEmailDialog.razor**
 
 2. Add the MudDialog as shown below.
 ```
@@ -493,11 +493,11 @@ public partial class Index
     </MudAlert>
 }
 ```
-* Values from the ==emailModel== are bound to ==MudTextFields== using ==@bind-Value
-* The logic for the ==OnClick== events will be added to the code-behind
-* A ==MudAlert== is added to display any errors
+* Values from the **emailModel** are bound to **MudTextFields** using **@bind-Value
+* The logic for the **OnClick** events will be added to the code-behind
+* A **MudAlert** is added to display any errors
 
-3. Open the code-behind file ==BlazorAppDemo.Server.Pages.Admin.Emails.AddOrUpdateEmailDialog.razor.cs==
+3. Open the code-behind file **BlazorAppDemo.Server.Pages.Admin.Emails.AddOrUpdateEmailDialog.razor.cs**
  and add the following lines.
  ```
 using BlazorAppDemo.Core.Interfaces;
@@ -519,26 +519,26 @@ public partial class AddOrUpdateEmailDialog
 
 }
 ```
-* The class signature should be ==public partial class AddOrUpdateEmailDialog==
-* We instantiate a ==CascadingParameter== of ==MudDialogInstance== because this page
- is a child of ==Index.razor==. 
+* The class signature should be **public partial class AddOrUpdateEmailDialog**
+* We instantiate a **CascadingParameter** of **MudDialogInstance** because this page
+ is a child of **Index.razor**. 
 * We instantiate an instance of an EmailModel to hold the data for a single record.
-* We inject the ==Iprint3dRepository DataService== so that we have access to 
+* We inject the **Iprint3dRepository DataService** so that we have access to 
 database calls.
-* We instantiate the ==SaveError== variable to hold any errors that my occur.
+* We instantiate the **SaveError** variable to hold any errors that my occur.
 
-4. Add logic for the ==Cancel()== function
+4. Add logic for the **Cancel()** function
 ```
 private void Cancel()
 {
     MudDialog.Cancel();
 }
 ```
-* The function is ==void== because it does not return a value
+* The function is **void** because it does not return a value
 * We access the built in method of MudDialog to cancel the operation and
 close the Dialog box.
 
-5. Add logic for the ==Submit()== function. The ==Submit()== function
+5. Add logic for the **Submit()** function. The **Submit()** function
 handles both inserts and updates.
 
 ```
@@ -549,9 +549,9 @@ protected async Task Submit()
 
 }
 ```
-* The ==DialogResult== is a MudBlazor class.
-* The ==emailMod== variable is populated from the data captured in ==dialog.Data==
- and is an instance of an ==EmailModel==
+* The **DialogResult** is a MudBlazor class.
+* The **emailMod** variable is populated from the data captured in **dialog.Data**
+ and is an instance of an **EmailModel**
 
 ```
  if (emailModel.EmailId == 0)

@@ -5,7 +5,7 @@ Serilogs are NuGet package that you can use to implement logging in a Blazor App
 
 ![Create Project](img/Serilogs/01SeriNuGet.png)
 
-1. Configure Serilogs in ==appsettings.json== as shown below.
+1. Configure Serilogs in **appsettings.json** as shown below.
 
 ```
 {
@@ -41,12 +41,12 @@ Serilogs are NuGet package that you can use to implement logging in a Blazor App
   }
 ```
 2. Inject the Serilog ILogger service on the page where 
-you want to implement Serilogs. For example, in ==BlazorAppDemo.Server.Pages.Admin.Emails.Index.razor.cs==
-add the following line above ==protected override async Task OnInitializedAsync()==
+you want to implement Serilogs. For example, in **BlazorAppDemo.Server.Pages.Admin.Emails.Index.razor.cs**
+add the following line above **protected override async Task OnInitializedAsync()**
 ```
 [Inject] private ILogger<Index> Logger { get; set; }
 ```
-3. Find the ==catch (Exception ex)== statement inside the ==OnInitializedAsync()== function.
+3. Find the **catch (Exception ex)** statement inside the **OnInitializedAsync()** function.
  Add the line `Logger.LogError(ex, "Error retreiving Emails");` as shown below.
  ```
  protected override async Task OnInitializedAsync()

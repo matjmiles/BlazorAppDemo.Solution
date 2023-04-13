@@ -1,12 +1,12 @@
 ## Create Entities
 
-1. Create a new folder in ==BlazorAppDemo.Core== called "Entities"
+1. Create a new folder in **BlazorAppDemo.Core** called "Entities"
 
 ![Create Project](img/Entities/01Entities.png)
 
 2. We need to create an entity class that corresponds to each 
 table in our database.To do this right click on the entity folder > 
-Add > New Class. Name the class ==Email.cs==
+Add > New Class. Name the class **Email.cs**
 
 ![Create Project](img/Entities/02CreateEntity.png)
 
@@ -18,11 +18,11 @@ Add > New Class. Name the class ==Email.cs==
 
 4. Change the class as follows.
 a. Remove the curly braces that correspond to the namespace and place
-a semicolon after ==BlazorAppDemo.Core.Entities==
+a semicolon after **BlazorAppDemo.Core.Entities**
 b. The using statements are greyed out which means they are not necessary. 
 Right click on one of the using statemens and select 
 Quick Actions and Refactorings > Suppress Unnecessary Usings.
-c. Change ==internal class Email== to ==public class Email==
+c. Change **internal class Email** to **public class Email**
 
 ![Create Project](img/Entities/05BasicClassEdits.png)
 

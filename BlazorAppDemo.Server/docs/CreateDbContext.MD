@@ -1,8 +1,8 @@
 ## Create the DbContext
 
-1. Inside of ==BlazorAppDemo.Infrastructure== add an empty class titles "Print3dContext"
+1. Inside of **BlazorAppDemo.Infrastructure** add an empty class titles "Print3dContext"
 
-2. Inside the ==BlazorAppDemo.Core.Entities== add an empty Interface class 
+2. Inside the **BlazorAppDemo.Core.Entities** add an empty Interface class 
 titled "IPrint3dContext.cs"
 
 3. Change <br/>
@@ -27,7 +27,7 @@ to </br>
 
 
 
-5. In ==BlazorAppDemo.Infrastructure== create a new directory titled "Repositories"
+5. In **BlazorAppDemo.Infrastructure** create a new directory titled "Repositories"
 
 6. In the new Repositories directory create a new empty class titled "Print3dContext.cs" 
 This file implements the Interface you just created and also defines the 
@@ -65,7 +65,7 @@ future projects.
 ```
 
 9. Now we define the relationships between tables (entities) inside of
-the ==OnModelCreating== method. 
+the **OnModelCreating** method. 
 a. The Email table has no FK relationships so we simply define the table and indicate the
 primary key
 b. The Status table has a FK relationship with Email. So we define the FK relationship

@@ -3,10 +3,10 @@
 The Repository is where we manage the SQL queries that will be used in the application. 
 We will create an interface class that implments the repository class.
 
-1. Right click on the ==BlazorAppDemo.Core== class library > Add > New Folder <br/>
+1. Right click on the **BlazorAppDemo.Core** class library > Add > New Folder <br/>
 Name the directory "Interfaces"
 
-2. Right click on the ==Interfaces== folder > Add > Class<br/>
+2. Right click on the **Interfaces** folder > Add > Class<br/>
 Add a new Interface Class titled "IPrint3dRepository"
 
 3. Populate the interface class with the CRUD function signatures that you will use for each Model
@@ -41,9 +41,9 @@ public interface IPrint3dRepository
 
 }
 ```
-2. Right click on ==BlazorAppDemo.Infrastructure== Add > New Folder 
+2. Right click on **BlazorAppDemo.Infrastructure** Add > New Folder 
 > Name the folder "Repositories" <br/>
-Right click on the ==Repositories== folder > Add > Class > Name the
+Right click on the **Repositories** folder > Add > Class > Name the
 class Print3dRepository.cs
 
 3. Scaffold the class as shown below.
@@ -61,7 +61,7 @@ namespace BlazorAppDemo.Infrastructure.Repositories
 }
 ```
 
-4. Notice that ==IPrint3dRepository== is underlined in red. Right click
+4. Notice that **IPrint3dRepository** is underlined in red. Right click
 on the word and select > Quick Actions and Refactoring > Implement Interface
 
 ![Create Project](img/Repository/01RepositoryScaffold.png)
@@ -131,7 +131,7 @@ statements at the top of the file.
 using BlazorAppDemo.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 ```
-Place the following lines below ==CreateBuilder== as shown below. <br/>
+Place the following lines below **CreateBuilder** as shown below. <br/>
 
 ```
 string connectionString = builder.Configuration.GetConnectionString("Print3dConnectionNew");

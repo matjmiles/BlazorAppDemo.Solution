@@ -67,7 +67,7 @@ d. BlazorAppDemo.Shared does not require any references.
 
 ![NuGet Menu](img/ProjectSetup/06NugetMenu.png)
 
-7. Under ==package.source== select "All" 
+7. Under **package.source** select "All" 
 
 ![NuGet Menu](img/ProjectSetup/07NugetSearchAll.png)
 
@@ -79,21 +79,21 @@ NuGet packages can be applied to any one or all of the projects
 or class libraries.
 
 9. The NuGet packages required for this project are
-a. ==AutoMapper.Extensions.Microsoft.DependencyInjection==
-b. ==FluentValidation==
-c. ==Microsoft.EntityFraemworkCore==
-d. ==Microsoft.EntityFrameworkCore.SqlServer==
-e. ==Microsoft.EntityFrameworkCore.Tools==
-e. ==Microsoft.Extensions.DependencyInjection.Abstractions==
-f. ==MudBlazor==
-g. ==Serilog.AspNetCore==
+a. **AutoMapper.Extensions.Microsoft.DependencyInjection**
+b. **FluentValidation**
+c. **Microsoft.EntityFraemworkCore**
+d. **Microsoft.EntityFrameworkCore.SqlServer**
+e. **Microsoft.EntityFrameworkCore.Tools**
+e. **Microsoft.Extensions.DependencyInjection.Abstractions**
+f. **MudBlazor**
+g. **Serilog.AspNetCore**
 
-10. Register MudBlazor package in ==Program.cs== under:<br/>
+10. Register MudBlazor package in **Program.cs** under:<br/>
 **var builder = WebApplication.CreateBuilder(args);**
 ```
 builder.Services.AddMudServices();
 ```
-11. Add MudBlazor references in ==BlazorAppDemo.Server.Pages._Layout.cshtml
+11. Add MudBlazor references in **BlazorAppDemo.Server.Pages._Layout.cshtml
 a. First comment out these lines as show below.
 ```
 @*    
@@ -154,7 +154,7 @@ d. The _Layout.cshtml is shown below.
 
 ### Configure the Layout Using MudBlazor
 ```
-12. Add a ==MudLayout== to **BlazorAppDemo.Server.Shared.MainLayout.razor**<br/>
+12. Add a **MudLayout** to **BlazorAppDemo.Server.Shared.MainLayout.razor**<br/>
 In the example below, I have created a layout with an app bar, side navigation, and
 main content area. 
 ```

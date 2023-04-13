@@ -15,8 +15,8 @@ SQL database.
 `
 
 ---
- The connection string is placed in the ==appsettings.json.Development== file during development, 
- then moved to ==appseetings.json== for production. Below is an example ==appsettings.json.Development== file:
+ The connection string is placed in the **appsettings.json.Development** file during development, 
+ then moved to **appseetings.json** for production. Below is an example **appsettings.json.Development** file:
 
  ```
  {
