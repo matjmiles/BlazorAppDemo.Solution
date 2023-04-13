@@ -6,6 +6,10 @@
 
 ![Create Project](img/ProjectSetup/01CreateProject.png)
 
+**Make sure you click "Place solution and project in the same directory**
+
+![Create Project](img/ProjectSetup/011SameDirectory.png)
+
 2. Add 4 additional Class Libraries to the project by
 right clicking on the project solution > Add > New Project.
 
@@ -25,6 +29,10 @@ sure to have the correct project selected under location.
 * BlazorAppDemo.Shared
 
 ![Project Explorer View](img/ProjectSetup/05ProjectExplorer.png)
+
+6. The project directory should look like the image below.
+
+![Class Libraries](img/ProjectSetup/022DirectoryStructure.png)
 
 ### Add Project References
 <a name="#addprojectreferences"></a>
