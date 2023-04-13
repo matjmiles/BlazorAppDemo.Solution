@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="docs\img\DbCalls\" />
+    <Folder Include="docs\img\Run\" />
     <Folder Include="docs\img\Serilogs\" />
     <Folder Include="docs\img\RazorPages\" />
     <Folder Include="docs\img\PopulateRepository\" />

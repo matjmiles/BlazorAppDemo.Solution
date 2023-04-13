@@ -12,7 +12,7 @@
 
 ### [Create the Models](CreateModels.MD)
 
-### [Create the Mappings](CreateMappings.MD)
+### [Create the Mappings](CreateMapping.MD)
 
 ### [Create the DbContext](CreateDbContext.MD)
 
@@ -25,4 +25,6 @@
 ### [Create the Razor Components](CreateRazorPages.MD)
 
 ### [Implement Logging With Serilogs](SerilogsImplementation.MD)
+
+### [Run the Project](RunProject.MD)
 
