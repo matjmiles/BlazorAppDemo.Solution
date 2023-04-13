@@ -6,23 +6,23 @@
 * Add the Required NuGet Packages
 * Configure the Layout Using MudBlazor
 
-[Configure the Database Connection String](CreateConnectionString.MD)
+### [Configure the Database Connection String](CreateConnectionString.MD)
 
-[Create the Entities](CreateEntities.MD)
+### [Create the Entities](CreateEntities.MD)
 
-[Create the Models](CreateModels.MD)
+### [Create the Models](CreateModels.MD)
 
-[Create the Mappings](CreateMappings.MD)
+### [Create the Mappings](CreateMappings.MD)
 
-[Create the DbContext](CreateDbContext.MD)
+### [Create the DbContext](CreateDbContext.MD)
 
-[Add Fluent Validation](CreateFluentValidation.MD)
+### [Add Fluent Validation](CreateFluentValidation.MD)
 
-[Create the Repository](CreateRepository.MD)
+### [Create the Repository](CreateRepository.MD)
 
-[Populate the Repository](PopulateRepository.MD)
+### [Populate the Repository](PopulateRepository.MD)
 
-[Create the Razor Components](CreateRazorPages.MD)
+### [Create the Razor Components](CreateRazorPages.MD)
 
-[Implement Logging With Serilogs](SerilogsImplementation.MD)
+### [Implement Logging With Serilogs](SerilogsImplementation.MD)
 
