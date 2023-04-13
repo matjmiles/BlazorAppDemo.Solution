@@ -41,6 +41,9 @@ namespace BlazorAppDemo.Infrastructure.Repositories
                 List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
                 throw new Exception(string.Join("; ", valErrors));
             }
+
+            db.Emails.Add(emailEntity);
+            await db.SaveChangesAsync();
         }
 
         public async Task UpdateEmailAsync(EmailModel emailModel)
