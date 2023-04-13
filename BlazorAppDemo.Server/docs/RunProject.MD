@@ -12,7 +12,8 @@ localhost and a port#. This will vary from machine to machine.
 
 ![Create Project](img/Run/02DefaultWebPage.png)
 
-3. Navigate to 
+3. Navigate to https://localhost:7142/Admin/Emails. This address corresponds to 
+"BlazorAppDemo.Shared.Pages.Admin.Emails"
 
 
 
