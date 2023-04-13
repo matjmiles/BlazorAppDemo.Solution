@@ -76,7 +76,30 @@ public class MappingProfile : Profile{
     }
 }
 ```
-4. Add a Fluent Validation file titled StatusValidator.cs in 
+4. We created **BlazorAppDemo.Cor.Entities.IPrint3dContext.cs earlier. It defines
+ the tables that will be available for CRUD operations.
+
+ ```
+ using Microsoft.EntityFrameworkCore;
+
+namespace BlazorAppDemo.Core.Entities
+{
+    public interface IPrint3dContext
+    {
+        public DbSet<Email> Emails { get; set; }
+        public DbSet<Status> Statuses { get; set; }
+
+    }
+}
+ ```
+5. We created the **BlazorAppDemo.Core.Entities.Print3dContext** earlier. It implements **IPrint3dContext**. 
+This file is a bridge between entity classes which reside in our application, 
+and the database.
+
+ ![Create Project](img/PkRelationship/01Print3dContext.png)
+
+
+6. Add a Fluent Validation file titled "StatusValidator.cs" in 
 **BlazorAppDemo.Infrastructure.Validators**
 ```
 using BlazorAppDemo.Core.Entities;
@@ -98,5 +121,132 @@ public class StatusValidator : AbstractValidator<Status>
     }
 }
 ```
-5. We added the
+7. We created the **BlazorAppDemo.Core.Interfaces.IPrint3dRepository.cs** earlier in 
+ and registered the Db calls.
+```
+ // Statuses
+    Task<List<StatusModel>> GetStatusesAsync();
+
+    Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId);
+
+    Task CreateStatusAsync(StatusModel statusModel);
+
+    Task UpdateStatusAsync(StatusModel statusModel);
+
+    Task DeleteStatusAsync(int machineId);
+```
+
+
+8. We created **Blazor.AppDemo.Infrastructure.Repositories.Print3dRepository.cs** 
+which holds all of the Db calls earlier. Here we will define the CRUD statements 
+ beginning with **GetStatusesAsync()**
+```
+    public async Task<List<StatusModel>> GetStatusesAsync()
+    {
+        await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+        List<Status> allStatuses = db.Statuses
+            .Include(e => e.Email)
+            .OrderBy(e => e.Email.Name)
+            .ToList();
+        return _mapper.Map<List<StatusModel>>(allStatuses);
+
+    }
+```
+* Setup the db variable to hold the query
+* Populate **allStatuses** with a list of Statuses
+* Include the matching Email records (FK records)
+
+9. We need another READ function to retreive only Statuses that match a 
+particular EmailId.
+
+```
+        public async Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId)
+        {
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            List<Status> allStatuses =
+                db.Statuses
+                .Include(e => e.Email)
+                .OrderBy(e => e.Email.Name)
+                .Where(x => x.EmailId == emailId)
+                .ToList();
+            return _mapper.Map<List<StatusModel>>(allStatuses);
+
+        }
+```
+* Create the db variable to hold the query
+* Populate **allStatuses** with a list of Statuses filtered by the
+emailId which was passed to the function.
+
+10. Update an existing Status record.
+```
+        await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+        Status statusEntity = _mapper.Map<Status>(updatedStatus);
+
+        // make sure the database entity is valid
+        StatusValidator validator = new();
+        FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(statusEntity);
+
+        if (validatorResult.Errors.Any()) // the database entity is not valid
+        {
+            List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+            throw new Exception(string.Join("; ", valErrors));
+        }
+
+        if ( statusEntity.EmailId == 0 )
+        {
+            statusEntity.EmailId = null;
+        } 
+
+        statusEntity.UpdatedAt = System.DateTime.Now;
+
+        db.Statuses.Update(statusEntity);
+        await db.SaveChangesAsync();
+```
+* Create the db variable to hold the query
+* Map the value of the status Model back to the status entity.
+* Create an instance of the StatusValidator created earlier
+* If the data violates any of the validation rules, generate a list of errors
+and throw and exception.
+* Not all Status codes have an associated Email. If there is not EmailId associated 
+with this record, set EmailId to null.
+* Set **statusEntity.UpdatedAt** to current date/time
+* Pass an UPDATE statement to the database
+* Commit the changes to the database
+
+
+11. Create a new Status Record.
+
+```
+        public async Task CreateStatusAsync(StatusModel statusModel)
+        {
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            Status statusEntity = _mapper.Map<Status>(statusModel);
+
+            // make sure the database entity is valid
+            StatusValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(statusEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+
+            statusEntity.UpdatedAt = System.DateTime.Now;
+
+            db.Statuses.Add(statusEntity);
+            await db.SaveChangesAsync();
+
+        }
+```
+* Create the db variable to hold the query
+* Map the value of the status Model back to the status entity.
+* Create an instance of the StatusValidator created earlier
+* If the data violates any of the validation rules, generate a list of errors
+and throw and exception.
+* Set **statusEntity.UpdatedAt** to current date/time
+* Pass an INSERT statement to the database
+* Commit the changes to the database
+
+
 

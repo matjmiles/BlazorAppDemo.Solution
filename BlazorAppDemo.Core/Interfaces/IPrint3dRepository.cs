@@ -5,8 +5,6 @@ namespace BlazorAppDemo.Core.Interfaces;
 public interface IPrint3dRepository
 {
 
-
-
     // Emails
     Task<List<EmailModel>> GetEmailsAsync();
 

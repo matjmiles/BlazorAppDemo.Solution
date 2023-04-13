@@ -4,6 +4,7 @@ using BlazorAppDemo.Core.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using BlazorAppDemo.Core.Entities;
 using BlazorAppDemo.Infrastructure.Validators;
+using Library.Infrastructure.Validators;
 
 namespace BlazorAppDemo.Infrastructure.Repositories
 {
@@ -78,18 +79,47 @@ namespace BlazorAppDemo.Infrastructure.Repositories
         // Status functions
         public async Task<List<StatusModel>> GetStatusesAsync()
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            List<Status> allStatuses = db.Statuses
+                .Include(e => e.Email)
+                .OrderBy(e => e.Email.Name)
+                .ToList();
+            return _mapper.Map<List<StatusModel>>(allStatuses);
+
         }
 
         public async Task<List<StatusModel>> GetStatusesByEmailIdAsync(int emailId)
         {
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            List<Status> allStatuses =
+                db.Statuses
+                .Include(e => e.Email)
+                .OrderBy(e => e.Email.Name)
+                .Where(x => x.EmailId == emailId)
+                .ToList();
+            return _mapper.Map<List<StatusModel>>(allStatuses);
 
-            throw new NotImplementedException();
         }
 
         public async Task CreateStatusAsync(StatusModel statusModel)
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            Status statusEntity = _mapper.Map<Status>(statusModel);
+
+            // make sure the database entity is valid
+            StatusValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(statusEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+
+            statusEntity.UpdatedAt = System.DateTime.Now;
+
+            db.Statuses.Add(statusEntity);
+            await db.SaveChangesAsync();
 
         }
         public async Task UpdateStatusAsync(StatusModel statusModel)
