@@ -1,11 +1,11 @@
 ## CRUD Operations for Table with Foreign Key Relationship
 
-We are going to create CRUD operations for the Status table. Before you
-can do this step, you must complete all of the previous steps associated with 
-Initializing the project, and creating all of the CRUD operations for the Email 
-table.
+Setting up CRUD operations for tables with FK relationsips is similar to 
+tables with no FK relationship, but there are some important concepts to
+understand.
 
-Let's review the steps we did earlier when we created the Email CRUD operations.
+Let's review the steps we did earlier when we created the Email CRUD operations. We 
+ will follow the same steps For Status CRUD operations
 
 1. As a review we first created the entity for the status table.
 ```
@@ -13,7 +13,6 @@ namespace BlazorAppDemo.Core.Entities;
 
 public class Status
 {
-
     public int StatusId { get; set; }
     public string Name { get; set; }
     public bool AcceptPayment { get; set; }
@@ -28,6 +27,7 @@ public class Status
     // Status has a list of email
     public int? EmailId { get; set; }
     public virtual Email Email { get; set; }
+}
 ```
 * The fields of the Status table are defined with getters and setters.
 * To create the FK relationship we define the FK in Status as the same 

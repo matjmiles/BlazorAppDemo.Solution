@@ -8,13 +8,12 @@
 
   <ItemGroup>
     <Folder Include="docs\img\DbCalls\" />
-    <Folder Include="docs\img\PkRelationship\" />
+    <Folder Include="docs\img\FkRelationship\" />
     <Folder Include="docs\img\Run\" />
     <Folder Include="docs\img\Serilogs\" />
     <Folder Include="docs\img\RazorPages\" />
     <Folder Include="docs\img\PopulateRepository\" />
     <Folder Include="docs\img\Repository\" />
-    <Folder Include="Pages\Admin\Statuses\" />
     <Folder Include="Pages\Public\" />
   </ItemGroup>
 

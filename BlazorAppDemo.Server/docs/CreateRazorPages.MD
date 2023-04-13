@@ -41,7 +41,7 @@ that we use to pass data between the index and detail page in a master-detail re
  It is used in conjuction the a MudBlazor dialog box.
 d. Remove the **@code block**. We will instead code in a "code behind" file.
 
-Here is the complete code block.
+Here is the code block.
 ```
 @page "/Admin/Emails
 
@@ -56,13 +56,13 @@ Here is the complete code block.
 ![Create Project](img/RazorPages/02CreateListPage.png)
 
 6. To create the code behind page, right click on the **Pages > Admin > Emails**
- click Add > Class > name the code behind page the same name as the razor page
+ directory. Then click, Add > Class > name the code behind page the same name as the razor page
  but with ".cs" appended to it. So name the file "Index.razor.cs". You will notice
  the code behind page shows up as a child of "Index.razor".
 
  ![Create Project](img/RazorPages/03CodeBehind.png)
 
- 7. Add the follwing using statements to the top of the file
+ 7. Add the follwing using statements to the top of the code-behind page
 ```
 using BlazorAppDemo.Core.Interfaces;
 using BlazorAppDemo.Shared.Print3dModels;
