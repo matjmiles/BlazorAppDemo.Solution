@@ -1,0 +1,37 @@
+﻿@using BlazorAppDemo.Core.Entities
+@using BlazorAppDemo.Core.Interfaces
+@using MudBlazor
+
+<MudDialog>
+    <DialogContent>
+        <MudContainer Style="max-height: 600px; overflow-y: scroll">
+            <MudTextField T="string" Label="Name" @bind-Value="statusModel.Name" />
+            <MudSelect T="int?" Label="Email" Value="SelectedEmailId" ValueChanged="@((id)=>ChangeEmailId(id))">
+
+                <MudSelectItem T="int?" Disabled="false" Value="0">-- No Email --</MudSelectItem>
+                @foreach (var email in AllEmails)
+                {
+                    <MudSelectItem T="int?" Value="email.EmailId">@email.Name </MudSelectItem>
+                }
+            </MudSelect>
+            <MudCheckBox Label="Accept Payment" @bind-Checked="statusModel.AcceptPayment" Size="Size.Small" Color="MudBlazor.Color.Primary"></MudCheckBox>
+            <MudCheckBox Label="In Queue" @bind-Checked="statusModel.InQueue" Size="Size.Small" Color="MudBlazor.Color.Primary"></MudCheckBox>
+            <MudCheckBox Label="Patron Can Delete" @bind-Checked="statusModel.PatronCanDelete" Size="Size.Small" Color="MudBlazor.Color.Primary"></MudCheckBox>
+            <MudCheckBox Label="Display on Dashboard" @bind-Checked="statusModel.DisplayOnDashboard" Size="Size.Small" Color="MudBlazor.Color.Primary"></MudCheckBox>
+            <MudCheckBox Label="Subtract Inventory" @bind-Checked="statusModel.SubtractInventory" Size="Size.Small" Color="MudBlazor.Color.Primary"></MudCheckBox>
+            <MudCheckBox Label="Completed" @bind-Checked="statusModel.Completed" Size="Size.Small" Color="MudBlazor.Color.Primary"></MudCheckBox>
+            <MudNumericField Label="Order" @bind-Value="statusModel.Order" />
+        </MudContainer>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}

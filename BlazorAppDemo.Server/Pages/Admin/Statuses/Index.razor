@@ -5,3 +5,84 @@
 
 @inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository statusService
 @inject IDialogService _dialogService;
+
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="MudBlazor.Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" IconSize="Size.Large" Label="Add A New
+    Email" Class="ma-2" @onclick="(e => CreateStatusAsync())" />
+</MudContainer>
+
+<MudTable Class="pa-10" Items="@AllStatuses">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Statuses</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Class="mlr-2">Status Id</MudTh>
+        <MudTh Class="mlr-2">Name</MudTh>
+        <MudTh Class="mlr-2">Email Subject</MudTh>
+        <MudTh Class="mlr-2">Accept Payment</MudTh>
+        <MudTh Class="mlr-2">In Queue</MudTh>
+        <MudTh Class="mlr-2">Patron Can Delete</MudTh>
+        <MudTh Class="mlr-2">Display on Dashboard</MudTh>
+        <MudTh Class="mlr-2">Subtract Inventory</MudTh>
+        <MudTh Class="mlr-2">Completed</MudTh>
+        <MudTh Class="mlr-2">Order</MudTh>
+        <MudTh Class="mlr-2">Update</MudTh>
+        <MudTh Class="mlr-2"> Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Status#">@context.StatusId</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Email ID">
+            @if (@context.EmailId is null)
+            {
+
+            }
+            else
+            {
+                @context.Email.Name
+            }
+
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.AcceptPayment" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.InQueue" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.PatronCanDelete" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.DisplayOnDashboard" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.SubtractInventory" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.Completed" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+        <MudTd>
+            <MudCheckBox Disabled @bind-Checked="context.Order" Size="Size.Small" Color="Color.Primary"></MudCheckBox>
+        </MudTd>
+
+        <MudTd>
+            <MudFab @onclick="@(()=>UpdateStatusAsync(@context.StatusId))" StartIcon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Primary">
+            </MudFab>
+        </MudTd>
+        <MudTd>
+            <MudFab @onclick="@(()=>DeleteStatusAsync(@context.StatusId))" StartIcon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error">
+            </MudFab>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}

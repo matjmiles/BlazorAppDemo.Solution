@@ -9,6 +9,7 @@
   <ItemGroup>
     <Folder Include="docs\img\DbCalls\" />
     <Folder Include="docs\img\FkRelationship\" />
+    <Folder Include="docs\img\SearchAndFilter\" />
     <Folder Include="docs\img\Run\" />
     <Folder Include="docs\img\Serilogs\" />
     <Folder Include="docs\img\RazorPages\" />

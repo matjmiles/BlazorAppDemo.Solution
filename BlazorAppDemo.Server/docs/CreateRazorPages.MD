@@ -184,7 +184,7 @@ public partial class Index
 </MudContainer>
 ```
 
-16. Create a table to hold a list of emails.
+16. Create a MudTable to hold a list of emails.
 ```
 <MudTable Class="pa-10" Items="@AllEmails">
     <ToolBarContent>
@@ -296,7 +296,7 @@ code for these files later.
 
 20. Return to **Index.razor.cs**
  
-20. Add the lines below to **CreateEmailAsync()**.
+21. Add the lines below to **CreateEmailAsync()**.
 a. Instantiate a variable to hold parameters that will be passed to the MudDialog form
 that will be used to create a new Email.
 b. Add an instance of an emtpy EmailModel to parameters.
@@ -307,7 +307,7 @@ c. Pass the parameters to **AddOrUpdateEmailDialog.razor** template and show the
     parameters.Add("emailModel", new EmailModel());
     var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Create A New Email Entry", parameters).Result;
 ```
-21. After the new Email is added and the MudDialog box is closed, we want to re-run our
+22. After the new Email is added and the MudDialog box is closed, we want to re-run our
 search of all Emails so our new Email will show up in the list. Append the code
 below to the **CreateEmailAsync()** function. This code re-executes the
 query to get a list of Emails and re-populate the grid.
@@ -322,7 +322,7 @@ query to get a list of Emails and re-populate the grid.
         }
 ```
 
-22. Add the lines below to **UpdateEmailAsync()**.
+23. Add the lines below to **UpdateEmailAsync()**.
 a. Instantiate a variable to hold parameters that will be passed to the MudDialog form
 b. Populate the **emailNeedToUpdate** variable with the record matching the emailId
 that was passed into the function.
@@ -332,19 +332,19 @@ d. Pass the parameters to **AddOrUpdateEmailDialog.razor** template and render t
 
 ```
     var parameters = new DialogParameters();
-    var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId ** EmailId);
+    var emailNeedToUpdate = AllEmails.FirstOrDefault(_ => _.EmailId == EmailId);
     parameters.Add("emailModel", emailNeedToUpdate);
     var dialog = await _dialogService.Show<AddOrUpdateEmailDialog>("Update A Email", parameters).Result;
 ```
 
-23. After the new Email is updated and the MudDialog box is closed, we want to re-run our
+24. After the new Email is updated and the MudDialog box is closed, we want to re-run our
 search of all Emails so changes made to the modified Email will show up in the list. Append 
 the code below **UpdateEmailAsync()** to re-execute the
 query to get a list of Emails and re-populate the grid.
 ```
         try
         {
-            AllEmails = await DataService.GetEmails();
+            AllEmails = await DataService.GetEmailsAsync();
         }
         catch (Exception ex)
         {
@@ -352,7 +352,7 @@ query to get a list of Emails and re-populate the grid.
         }
 ```
 
-24. Add the lines below to **DeleteEmailAsync(int EmailId)**.<br/>
+25. Add the lines below to **DeleteEmailAsync(int EmailId)**.<br/>
 Instantiate a boolean nullable variable that contains a message box passed
 to the dialog service. This give the user the opportunity to confirm or cancel
 the deletion of the Email record.
@@ -362,7 +362,7 @@ the deletion of the Email record.
   "Deleting can not be undone!",
   yesText: "Delete!", cancelText: "Cancel");
 ```
-25. Append the code below to **DeleteEmailAsync(int EmailId)** to test the 
+26. Append the code below to **DeleteEmailAsync(int EmailId)** to test the 
 value of the result to see if it is null. If result is not null execute the 
 delete function in a try/catch statement.
 ```
@@ -371,15 +371,15 @@ if (result ?? false)
     try
     {
         await DataService.DeleteEmailAsync(EmailId);
-        AllEmails = await DataService.GetEmails();
+        AllEmails = await DataService.GetEmailsAsync();
     }
     catch (Exception ex)
     {
-        SaveError = "You cannot delete this coupon. It is attached to a job";
+        SaveError = "You cannot delete this Email. It is attached to a job";
     }
 }
 ```
-26. The complete code to this point for **Index.razor.cs** 
+27. The complete code to this point for **Index.razor.cs** 
 is shown below.
 ```
 using BlazorAppDemo.Core.Interfaces;
