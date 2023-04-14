@@ -20,6 +20,12 @@ public class Print3dContext : DbContext, IPrint3dContext
             ent.HasKey(e => e.EmailId);
         });
 
+        modelBuilder.Entity<FileUpload>(ent =>
+        {
+            ent.ToTable("FileUpload");
+            ent.HasKey(e => e.FileUploadId);
+        });
+
         modelBuilder.Entity<Status>(ent => {
             ent.ToTable("Status");
             ent.HasOne(e => e.Email).WithMany(e => e.Statuses).HasForeignKey(e => e.EmailId);

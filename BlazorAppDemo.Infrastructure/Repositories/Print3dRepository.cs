@@ -124,13 +124,53 @@ namespace BlazorAppDemo.Infrastructure.Repositories
         }
         public async Task UpdateStatusAsync(StatusModel statusModel)
         {
-            throw new NotImplementedException();
+
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            Status statusEntity = _mapper.Map<Status>(statusModel);
+
+            // make sure the database entity is valid
+            StatusValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(statusEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+
+            statusEntity.UpdatedAt = System.DateTime.Now;
+
+            db.Statuses.Update(statusEntity);
+            await db.SaveChangesAsync();
         }
 
-        public async Task DeleteStatusAsync(int machineId)
+        public async Task DeleteStatusAsync(int statusId)
+        {
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            var statusToRemove = await db.Statuses.FindAsync(statusId);
+
+            db.Statuses.Remove(statusToRemove);
+            await db.SaveChangesAsync();
+        }
+
+        public Task<List<FileUploadModel>> GetFileModelsAsync()
         {
             throw new NotImplementedException();
         }
 
+        public Task CreateFileUploadAsync(FileUploadModel fileUploadModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task UpdateFileUploadAsync(FileUploadModel fileUploadModel)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task DeleteFileUploadAsync(int fileId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

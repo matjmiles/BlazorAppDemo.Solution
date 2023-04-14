@@ -9,6 +9,7 @@ public class MappingProfile : Profile{
     {
         CreateMap<Email, EmailModel>().ReverseMap();
         CreateMap<Status, StatusModel>().ReverseMap();
+        CreateMap<FileUpload, FileUploadModel>().ReverseMap();
 
     }
 }

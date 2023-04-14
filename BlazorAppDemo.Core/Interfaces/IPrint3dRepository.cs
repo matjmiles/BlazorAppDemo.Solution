@@ -14,7 +14,17 @@ public interface IPrint3dRepository
 
     Task DeleteEmailAsync(int emailId);
 
-    
+    //FileUploads
+    Task<List<FileUploadModel>> GetFileModelsAsync();
+
+    Task CreateFileUploadAsync(FileUploadModel fileUploadModel);
+
+    Task UpdateFileUploadAsync(FileUploadModel fileUploadModel);
+
+    Task DeleteFileUploadAsync(int fileId);
+
+
+
 
     // Statuses
     Task<List<StatusModel>> GetStatusesAsync();
