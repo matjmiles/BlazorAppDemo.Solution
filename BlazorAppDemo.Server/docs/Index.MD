@@ -29,6 +29,8 @@
 ### [Run the Project](RunProject.MD)
 
 ---
-### [Creating a FK Relationship](FkRelationship.MD)
+### [Creating a FK Relationship on a Table](FkRelationship.MD)
 
-### [FK Relationship CRUD Operations](FkCrud.MD)
+### [CRUD Operations on a Table with a FK Relationship](FkCrud.MD)
+
+### [Filtering and Sorting on a MudTable](SearchAndFilter.MD)
