@@ -1,0 +1,55 @@
+﻿@page "/Admin/FileUploads"
+
+
+@using BlazorAppDemo.Core.Entities
+@using BlazorAppDemo.Shared.Print3dModels
+
+
+@inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository FileUploadService
+@using MudBlazor
+@inject IDialogService _dialogService;
+
+<MudContainer Class="d-flex justify-center mb-2">
+    <MudFab Color="MudBlazor.Color.Primary" StartIcon="@Icons.Material.Filled.Add" Size="Size.Large" IconSize="Size.Large" Label="Add A New
+   Email" Class="ma-2" @onclick="(e => CreateFileUploadAsync())" />
+</MudContainer>
+
+<MudTable Class="pa-10" Items="@AllFileUploads">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Files</MudText>
+        <MudSpacer />
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh Class="mlr-2">EmailId</MudTh>
+        <MudTh Class="mlr-2">Name</MudTh>
+        <MudTh Class="mlr-2">Subject</MudTh>
+        <MudTh Class="mlr-2">Body</MudTh>
+        <MudTh Class="mlr-2">Update</MudTh>
+        <MudTh Class="mlr-2">Delete</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Email#">@context.EmailId</MudTd>
+        <MudTd DataLabel="Name">@context.Name</MudTd>
+        <MudTd DataLabel="Subject">@context.Subject</MudTd>
+        <MudTd DataLabel="Body">@context.Body</MudTd>
+
+        <MudTd Datalabel="">
+            <MudFab @onclick="@(()=>UpdateFileUploadAsync(@context.EmailId))" StartIcon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Primary">
+            </MudFab>
+        </MudTd>
+        <MudTd Datalabel="">
+            <MudFab @onclick="@(()=>DeleteFileUploadAsync(@context.EmailId))" StartIcon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error">
+            </MudFab>
+        </MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}

@@ -153,7 +153,7 @@ namespace BlazorAppDemo.Infrastructure.Repositories
             await db.SaveChangesAsync();
         }
 
-        public Task<List<FileUploadModel>> GetFileModelsAsync()
+        public Task<List<FileUploadModel>> GetFileUploadsAsync()
         {
             throw new NotImplementedException();
         }

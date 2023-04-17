@@ -6,6 +6,7 @@ namespace BlazorAppDemo.Core.Entities
     {
         public DbSet<Email> Emails { get; set; }
         public DbSet<Status> Statuses { get; set; }
+        public DbSet<FileUpload> FileUploads { get; set; }
 
     }
 }

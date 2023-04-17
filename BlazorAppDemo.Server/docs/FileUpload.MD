@@ -4,28 +4,30 @@ We can use implement File Upload capability using the MudFileUpload component. W
 can use a simple intederminant progress indicator that will display while the 
 file uploads.
 
-1. 
 
 
-1. Open the **BlazorAppDemo.Server.Pages.Admin.Emails.Index.razor.cs** file. Add the following lines.
+1. Create a new folder in BlazorAppDemo.Server.Pages.Admin titled "FileUploads"
+
+![Create Project](img/FileUploads/01RepositoryScaffold.png)
+
+2. Create a new razor component titled "Index.razor" and populate the header:
+
 ```
-private string searchString1 = "";
-private EmailModel selectedItem1 = null;
-private bool FilterFunc(EmailModel email, string searchString)
-private bool FilterFunc1(EmailModel email) => FilterFunc(email, searchString1);
+@page "/Admin/FileUploads"
 
-{
-    if (string.IsNullOrWhiteSpace(searchString))
-        return true;
-    if (email.Name.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-        return true;
-    return false;
-}
+
+@using BlazorAppDemo.Core.Entities
+@using BlazorAppDemo.Shared.Print3dModels
+
+
+@inject BlazorAppDemo.Core.Interfaces.IPrint3dRepository FileUploadService
+@using MudBlazor
+@inject IDialogService _dialogService;
 ```
-* **searchString1** is bound to a MudTextField and is the string to be searched
-* **selectedItem1** is bound to the Filter
-* **FilterFunc** 
-* **FilterFunc1**
-* Test to see if searchString is null
-* Test to see if the searchString has a match in the table data
+* The page directive
+* Include path to Entities and Models
+* Inject the IPrint3dRepository servive
+* Indect the dialog service (necessary for a dialog box)
+
+3. Add a code-behind for **Index.razor** titled **Index.razor.cs** 
 
