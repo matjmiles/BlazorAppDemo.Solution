@@ -153,17 +153,34 @@ namespace BlazorAppDemo.Infrastructure.Repositories
             await db.SaveChangesAsync();
         }
 
-        public Task<List<FileUploadModel>> GetFileUploadsAsync()
+        public async Task<List<FileUploadModel>> GetFileUploadsAsync()
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            List<FileUpload> allFileUploads = db.FileUploads.ToList();
+            return _mapper.Map<List<FileUploadModel>>(allFileUploads);
         }
 
-        public Task CreateFileUploadAsync(FileUploadModel fileUploadModel)
+        public async Task CreateFileUploadAsync(FileUploadModel fileUploadModel)
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            FileUpload fileUploadEntity = _mapper.Map<FileUpload>(fileUploadModel);
+            
+
+            // make sure the database entity is valid
+            FileUploadValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(fileUploadEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+
+            db.FileUploads.Add(fileUploadEntity);
+            await db.SaveChangesAsync();
         }
 
-        public Task UpdateFileUploadAsync(FileUploadModel fileUploadModel)
+        public async Task UpdateFileUploadAsync(FileUploadModel fileUploadModel)
         {
             throw new NotImplementedException();
         }
