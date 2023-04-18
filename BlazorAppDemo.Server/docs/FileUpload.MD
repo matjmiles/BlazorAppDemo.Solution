@@ -4,9 +4,22 @@ We can use implement File Upload capability using the MudFileUpload component. W
 can use a simple intederminant progress indicator that will display while the 
 file uploads.
 
+1. Add a new folder titled **js** under **BlazorAppDemo.Server.wwwroot**
 
+![Create Project](img/FileUploads/001Createjsfolder.png)
 
-1. Create a new folder in BlazorAppDemo.Server.Pages.Admin titled "FileUploads"
+2. Add a new file title **scripts.js** in the **js** folder with the following code.
+```
+window.triggerFileDownload = (fileName, url) => {
+    const anchorElement = document.createElement('a');
+    anchorElement.href = url;
+    anchorElement.download = fileName ?? '';
+    anchorElement.click();
+    anchorElement.remove();
+}
+```
+
+2. Create a new folder in BlazorAppDemo.Server.Pages.Admin titled "FileUploads"
 
 ![Create Project](img/FileUploads/01RepositoryScaffold.png)
 

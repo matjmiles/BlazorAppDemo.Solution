@@ -7,6 +7,7 @@ public class Print3dContext : DbContext, IPrint3dContext
 {
     public DbSet<Email> Emails { get; set; }
     public DbSet<Status> Statuses { get; set; }
+    public DbSet<FileUpload> FileUploads { get; set; }
 
     public Print3dContext(DbContextOptions options) : base(options)
     {

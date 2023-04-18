@@ -20,25 +20,22 @@
         <MudSpacer />
     </ToolBarContent>
     <HeaderContent>
-        <MudTh Class="mlr-2">EmailId</MudTh>
+        <MudTh Class="mlr-2">FileUploadId</MudTh>
         <MudTh Class="mlr-2">Name</MudTh>
-        <MudTh Class="mlr-2">Subject</MudTh>
-        <MudTh Class="mlr-2">Body</MudTh>
-        <MudTh Class="mlr-2">Update</MudTh>
-        <MudTh Class="mlr-2">Delete</MudTh>
+        <MudTh Class="mlr-2">File Path</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Email#">@context.EmailId</MudTd>
+        <MudTd DataLabel="FileUploadId#">@context.FileUploadId</MudTd>
         <MudTd DataLabel="Name">@context.Name</MudTd>
-        <MudTd DataLabel="Subject">@context.Subject</MudTd>
-        <MudTd DataLabel="Body">@context.Body</MudTd>
+        <MudTd DataLabel="Subject">@context.FilePath</MudTd>
+       
 
         <MudTd Datalabel="">
-            <MudFab @onclick="@(()=>UpdateFileUploadAsync(@context.EmailId))" StartIcon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Primary">
+            <MudFab @onclick="@(()=>UpdateFileUploadAsync(@context.FileUploadId))" StartIcon="@Icons.Material.Filled.Edit" Color="MudBlazor.Color.Primary">
             </MudFab>
         </MudTd>
         <MudTd Datalabel="">
-            <MudFab @onclick="@(()=>DeleteFileUploadAsync(@context.EmailId))" StartIcon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error">
+            <MudFab @onclick="@(()=>DeleteFileUploadAsync(@context.FileUploadId))" StartIcon="@Icons.Material.Filled.Delete" Color="MudBlazor.Color.Error">
             </MudFab>
         </MudTd>
     </RowTemplate>

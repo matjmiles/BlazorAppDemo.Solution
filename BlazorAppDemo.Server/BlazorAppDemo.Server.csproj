@@ -16,6 +16,7 @@
     <Folder Include="docs\img\PopulateRepository\" />
     <Folder Include="docs\img\Repository\" />
     <Folder Include="Pages\Public\" />
+    <Folder Include="wwwroot\submissions\" />
   </ItemGroup>
 
   <ItemGroup>
