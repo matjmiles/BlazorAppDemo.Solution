@@ -15,6 +15,10 @@ public partial class AddOrUpdateEmailDialog
 
     public string SaveError { get; set; }
 
+    
+  
+    
+    
     private void Cancel()
     {
         MudDialog.Cancel();
@@ -23,7 +27,7 @@ public partial class AddOrUpdateEmailDialog
     protected async Task Submit()
     {
         var dialog = DialogResult.Ok<EmailModel>(emailModel);
-        EmailModel emailMod = dialog.Data as EmailModel;
+        EmailModel? emailMod = dialog.Data as EmailModel;
 
         if (emailModel.EmailId == 0)
         {

@@ -12,6 +12,8 @@ public partial class Index
     public List<FileUploadModel> AllFileUploads { get; set; }
     public string SaveError { get; set; }
 
+
+
     protected override async Task OnInitializedAsync()
     {
         try
@@ -46,8 +48,9 @@ public partial class Index
     {
         var parameters = new DialogParameters();
         var fileUploadNeedToUpdate = AllFileUploads.FirstOrDefault(_ => _.FileUploadId == fileUploadId);
+
         parameters.Add("fileUploadModel", fileUploadNeedToUpdate);
-        var dialog = await _dialogService.Show<AddOrUpdateFileUploadDialog>("Update A Email", parameters).Result;
+        var dialog = await _dialogService.Show<AddOrUpdateFileUploadDialog>("Update A File", parameters).Result;
 
         try
         {

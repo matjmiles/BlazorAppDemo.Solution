@@ -10,22 +10,22 @@ namespace BlazorAppDemo.Server.Pages.Admin.FileUploads;
 
 public partial class AddOrUpdateFileUploadDialog
 {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public FileUploadModel fileUploadModel { get; set; } = new FileUploadModel();
+
+
     [Inject] private IPrint3dRepository DataService { get; set; }
     [Inject] private NavigationManager NavigationManager { get; set; }
     [Inject] private ILogger<AddOrUpdateFileUploadDialog> Logger { get; set; }
 
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-
-
-    [Parameter] public FileUploadModel fileUploadModel { get; set; } = new FileUploadModel();
-
- 
 
     public string SaveError { get; set; }
-    public string FileSelectedMessage { get; set; }
+    //public string FileSelectedMessage { get; set; } 
     public bool FileSelected { get; set; } = false;
     public bool DisplayNoFileSelected { get; set; } = false;
     public bool ShowProgressBar { get; set; } = false;
+
 
 
 
@@ -37,8 +37,8 @@ public partial class AddOrUpdateFileUploadDialog
 
     protected async Task Submit()
     {
-        var dialog = DialogResult.Ok<FileUploadModel>(fileUploadModel);
-        FileUploadModel fileUploadMod = dialog.Data as FileUploadModel;
+        var dialog = DialogResult.Ok(fileUploadModel);
+        FileUploadModel? fileUploadMod = dialog.Data as FileUploadModel;
 
         if (fileUploadModel.FileUploadId == 0)
         {
@@ -123,7 +123,7 @@ public partial class AddOrUpdateFileUploadDialog
                 fileUploadModel.FilePath = fullPath;
 
                 Message = $"{selectedFile.Name} file uploaded to server";
-                FileSelectedMessage = fileUploadModel.FilePath.Substring(@fileUploadModel.FilePath.LastIndexOf("\\") + 1);
+                //FileSelectedMessage = fileUploadModel.FilePath.Substring(@fileUploadModel.FilePath.LastIndexOf("\\") + 1);
                 ShowProgressBar = false;
                 this.StateHasChanged();
 
@@ -212,7 +212,7 @@ public partial class AddOrUpdateFileUploadDialog
 
                 Message = $"{selectedFile.Name} file uploaded to server";
                 //FileSelectedMessage = FileSelectedMessage + Environment.NewLine + jobModel.FilePath.Substring(@jobModel.FilePath.LastIndexOf("\\") + 1);
-                FileSelectedMessage = fileUploadModel.FilePath.Substring(@fileUploadModel.FilePath.LastIndexOf("\\") + 1);
+               // FileSelectedMessage = fileUploadModel.FilePath.Substring(@fileUploadModel.FilePath.LastIndexOf("\\") + 1);
                 this.StateHasChanged();
 
 
