@@ -35,7 +35,6 @@
 
             @if (@fileUploadModel.FilePath is not null)
             {
-
                 <MudButton HtmlTag="label"
                        Variant="Variant.Filled"
                        Color="MudBlazor.Color.Default"
@@ -43,7 +42,6 @@
                        OnClick="@(()=>DownloadFileFromURL(@fileUploadModel.FilePath))">
                     Download File
                 </MudButton>
-
             }
         </MudPaper>
 
