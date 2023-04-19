@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using BlazorAppDemo.Core.Entities;
 using BlazorAppDemo.Infrastructure.Validators;
 using Library.Infrastructure.Validators;
+using Microsoft.AspNetCore.Http;
 
 namespace BlazorAppDemo.Infrastructure.Repositories
 {
@@ -182,12 +183,30 @@ namespace BlazorAppDemo.Infrastructure.Repositories
 
         public async Task UpdateFileUploadAsync(FileUploadModel fileUploadModel)
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            FileUpload fileUploadEntity = _mapper.Map<FileUpload>(fileUploadModel);
+
+            // make sure the database entity is valid
+            FileUploadValidator validator = new();
+            FluentValidation.Results.ValidationResult validatorResult = await validator.ValidateAsync(fileUploadEntity);
+
+            if (validatorResult.Errors.Any()) // the database entity is not valid
+            {
+                List<string> valErrors = validatorResult.Errors.Select(v => v.ErrorMessage).ToList();
+                throw new Exception(string.Join("; ", valErrors));
+            }
+
+            db.FileUploads.Update(fileUploadEntity);
+            await db.SaveChangesAsync();
         }
 
-        public Task DeleteFileUploadAsync(int fileId)
+        public async Task DeleteFileUploadAsync(int fileUploadId)
         {
-            throw new NotImplementedException();
+            await using Print3dContext db = await _print3DContext.CreateDbContextAsync();
+            var fileUploadToRemove = await db.FileUploads.FindAsync(fileUploadId);
+
+            db.FileUploads.Remove(fileUploadToRemove);
+            await db.SaveChangesAsync();
         }
     }
 }

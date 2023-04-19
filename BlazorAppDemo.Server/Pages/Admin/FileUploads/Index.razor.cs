@@ -28,8 +28,8 @@ public partial class Index
     protected async Task CreateFileUploadAsync()
     {
         var parameters = new DialogParameters();
-        parameters.Add("emailModel", new EmailModel());
-        var dialog = await _dialogService.Show<AddOrUpdateFileUploadDialog>("Create A New Email Entry", parameters).Result;
+        parameters.Add("fileUploadModel", new FileUploadModel());
+        var dialog = await _dialogService.Show<AddOrUpdateFileUploadDialog>("Create A New File Entry", parameters).Result;
 
         try
         {
