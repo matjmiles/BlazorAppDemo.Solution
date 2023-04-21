@@ -21,14 +21,9 @@ public partial class AddOrUpdateFileUploadDialog
 
 
     public string SaveError { get; set; }
-    //public string FileSelectedMessage { get; set; } 
     public bool FileSelected { get; set; } = false;
     public bool DisplayNoFileSelected { get; set; } = false;
     public bool ShowProgressBar { get; set; } = false;
-
-
-
-
 
     private void Cancel()
     {
@@ -74,28 +69,24 @@ public partial class AddOrUpdateFileUploadDialog
     string Message = "No file selected";
     string theFileName = "";
 
-
     IBrowserFile? selectedFile;
-
     private async void OnInputFileChange(InputFileChangeEventArgs e)
     {
-
-        if (fileUploadModel.FilePath != null)
-            try
+    if (fileUploadModel.FilePath != null)
+        try
+        {
+            if (File.Exists(fileUploadModel.FilePath))
             {
-                if (File.Exists(fileUploadModel.FilePath))
-                {
-                    File.Delete(fileUploadModel.FilePath);
-                }
-
-            }
-            catch (Exception ex)
-            {
-                SaveError = $"Error deleting file:{ex.Message}";
-                Logger.LogError(ex, "Error deleting file");
-
+                File.Delete(fileUploadModel.FilePath);
             }
 
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error deleting file:{ex.Message}";
+            Logger.LogError(ex, "Error deleting file");
+
+        }
 
         selectedFile = e.File;
         FileSelected = true;
@@ -105,7 +96,6 @@ public partial class AddOrUpdateFileUploadDialog
         if (selectedFile is not null)
         {
             ShowProgressBar = true;
-
 
             try
             {
@@ -123,10 +113,8 @@ public partial class AddOrUpdateFileUploadDialog
                 fileUploadModel.FilePath = fullPath;
 
                 Message = $"{selectedFile.Name} file uploaded to server";
-                //FileSelectedMessage = fileUploadModel.FilePath.Substring(@fileUploadModel.FilePath.LastIndexOf("\\") + 1);
                 ShowProgressBar = false;
                 this.StateHasChanged();
-
 
             }
 
@@ -149,9 +137,6 @@ public partial class AddOrUpdateFileUploadDialog
 
     // download logic
     private IJSObjectReference? module;
-
-    // private string? result;
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -183,56 +168,6 @@ public partial class AddOrUpdateFileUploadDialog
         {
             SaveError = $"There is no file to download.";
         }
-
-    }
-
-
-    private async void UploadFile()
-    {
-
-        if (selectedFile is not null)
-        {
-            ShowProgressBar = true;
-
-
-            try
-            {
-
-                Stream stream = selectedFile.OpenReadStream(250000000);
-                var fileName = $"{System.DateTime.Now.Ticks.ToString()}_{selectedFile.Name}";
-                var filePath = $"{env.WebRootPath}\\submissions\\";
-                var fullPath = Path.Combine(filePath, fileName);
-                FileStream fs = File.Create(fullPath);
-                await stream.CopyToAsync(fs);
-
-                stream.Close();
-                fs.Close();
-                theFileName = fileName;
-                fileUploadModel.FilePath = fullPath + Environment.NewLine + fullPath;
-
-                Message = $"{selectedFile.Name} file uploaded to server";
-                //FileSelectedMessage = FileSelectedMessage + Environment.NewLine + jobModel.FilePath.Substring(@jobModel.FilePath.LastIndexOf("\\") + 1);
-               // FileSelectedMessage = fileUploadModel.FilePath.Substring(@fileUploadModel.FilePath.LastIndexOf("\\") + 1);
-                this.StateHasChanged();
-
-
-            }
-
-            catch (Exception ex)
-            {
-                SaveError = $"Error uploading file:{ex.Message}";
-                Logger.LogError(ex, "Error uploading file");
-
-            }
-            ShowProgressBar = false;
-
-        }
-        else
-        {
-            SaveError = $"No File Selected for Upload";
-            DisplayNoFileSelected = true;
-        }
-;
     }
 
 }

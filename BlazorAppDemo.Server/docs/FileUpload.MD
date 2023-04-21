@@ -331,7 +331,8 @@ public partial class Index
  Once the event handler for uploading a file is entered and a file is selected, it get set to
  true. Once the file upload is complete, it is set to false.
 
-15.  Add a MudPaper class to hod the file upload button and text field to hold the file path.
+15.  Add a MudPaper class to hold the file upload button and text field to hold 
+the file path.
 ```
 <MudPaper Class="d-flex align-content-start flex-wrap flex-grow-1 gap-4" Elevation="0">
 
@@ -349,9 +350,12 @@ public partial class Index
 
 </MudPaper>
 ```
-* The the type of IBrowser File on **MudFileUpload** is used when only a single file is to be uploaded.
-* **Accept** is the list of file types that are allowed. The default is to allow all file types.
-* **OnInputFileChange is a function that fires on the code-behind if the selected file changes.
+* The type of IBrowser File on **MudFileUpload** is used when only a single file is to
+be uploaded.
+* **Accept** is the list of file types that are allowed. The default is to allow 
+all file types.
+* **OnInputFileChange** is a function that fires on the code-behind if the selected 
+file changes.
 * The Mudbutton sets the properties for the button.
 
 16. Add code to conditionally show the **Download** button.
@@ -367,4 +371,275 @@ public partial class Index
     </MudButton>
 ```
 * The conditional **@if** statement will be true and show the download button, if the
- FilePath value of the **FileUploadModel** instance has been populated.
+ FilePath value of the **FileUploadModel.FilePath** instance has been populated.
+
+17. Add the DialogActions and close out the MudDialog.
+ ```
+ </DialogContent>
+     <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+ ```
+18. Add the MudAlert.
+```
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}
+```
+19. Here is the complete code for **AddOrUpdateFileUploadDialog.razor**
+```
+@using BlazorAppDemo.Core.Interfaces;
+@using BlazorAppDemo.Shared.Print3dModels;
+@using Microsoft.AspNetCore.Components;
+@using MudBlazor;
+
+@inject IWebHostEnvironment env
+@inject IJSRuntime JS
+
+<MudDialog>
+    <DialogContent>
+        <MudTextField T="string" Label="Name" @bind-Value="fileUploadModel.Name" />
+
+        @if (ShowProgressBar == true)
+        {
+            <MudProgressCircular Color="MudBlazor.Color.Primary" Size="Size.Large" Indeterminate="true" />
+            <MudPaper>Loading file...</MudPaper>
+        }
+
+        <MudTextField ReadOnly="true" Lines=2 T="string" Label="File Name:" @bind-Value="fileUploadModel.FilePath"  />
+
+        <MudPaper Class="d-flex align-content-start flex-wrap flex-grow-1 gap-4" Elevation="0">
+
+            <MudFileUpload T="IBrowserFile" Accept=".png, jpg, gif, docx, xlsx, txt, csv" OnFilesChanged="OnInputFileChange">
+                <ButtonTemplate>
+                    <MudButton HtmlTag="label"
+                               Variant="Variant.Filled"
+                               Color="MudBlazor.Color.Primary"
+                               StartIcon="@Icons.Material.Filled.CloudUpload"
+                               for="@context">
+                        Upload File
+                    </MudButton>
+                </ButtonTemplate>
+            </MudFileUpload>
+
+
+            @if (@fileUploadModel.FilePath is not null)
+            {
+                <MudButton HtmlTag="label"
+                       Variant="Variant.Filled"
+                       Color="MudBlazor.Color.Default"
+                       StartIcon="@Icons.Material.Filled.CloudDownload"
+                       OnClick="@(()=>DownloadFileFromURL(@fileUploadModel.FilePath))">
+                    Download File
+                </MudButton>
+            }
+        </MudPaper>
+
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Cancel">Cancel</MudButton>
+        <MudButton Color="MudBlazor.Color.Primary" OnClick="Submit">Ok</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@if (!string.IsNullOrEmpty(SaveError))
+{
+    <MudAlert Severity="Severity.Error" Class="mt-2" ShowCloseIcon="true" CloseIconClicked="() => { SaveError = string.Empty; }">
+        @SaveError
+    </MudAlert>
+}
+```
+20. Create the code-behind for **AddOrUpdateFileUploadDialog.razor.cs** and
+populate the header.
+```
+using BlazorAppDemo.Core.Interfaces;
+using BlazorAppDemo.Shared.Print3dModels;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
+using MudBlazor;
+
+namespace BlazorAppDemo.Server.Pages.Admin.FileUploads;
+```
+21. Change the class definition to "public partial class', instantiate the variables
+add the parameters, and inject the appropriate services.
+```
+public partial class AddOrUpdateFileUploadDialog
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public FileUploadModel fileUploadModel { get; set; } = new FileUploadModel();
+
+
+    [Inject] private IPrint3dRepository DataService { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private ILogger<AddOrUpdateFileUploadDialog> Logger { get; set; }
+
+
+    public string SaveError { get; set; }
+    public bool FileSelected { get; set; } = false;
+    public bool DisplayNoFileSelected { get; set; } = false;
+    public bool ShowProgressBar { get; set; } = false;
+```
+22. Add the event handlers for **Cancel** and **Submit**.
+```
+private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    protected async Task Submit()
+    {
+        var dialog = DialogResult.Ok(fileUploadModel);
+        FileUploadModel? fileUploadMod = dialog.Data as FileUploadModel;
+
+        if (fileUploadModel.FileUploadId == 0)
+        {
+            try
+            {
+                await DataService.CreateFileUploadAsync(fileUploadMod);
+                MudDialog.Close();
+            }
+            catch (Exception ex)
+            {
+                SaveError = $"Error creating File:{ex.Message}";
+            }
+
+        }
+        else
+        {
+            try
+            {
+                await DataService.UpdateFileUploadAsync(fileUploadMod);
+                MudDialog.Close();
+            }
+
+            catch (Exception ex)
+            {
+                SaveError = $"Error updating File:{ex.Message}";
+            }
+
+        }
+
+    }
+```
+23. Create the event handler for **OnInputFileChange**. We will break
+this down section by section with comments.
+```
+
+string Message = "No file selected";
+string theFileName = "";
+
+
+IBrowserFile? selectedFile; // contains data of a file from an InputFile component //
+
+private async void OnInputFileChange(InputFileChangeEventArgs e)
+{
+
+if (fileUploadModel.FilePath != null) // if file path exists, delete the path as a new one is being added//
+try
+{
+    if (File.Exists(fileUploadModel.FilePath))
+    {
+        File.Delete(fileUploadModel.FilePath);
+    }
+
+}
+catch (Exception ex)
+{
+    SaveError = $"Error deleting file:{ex.Message}";
+    Logger.LogError(ex, "Error deleting file");
+
+}
+
+
+selectedFile = e.File;                              // get the file from the event argument //
+FileSelected = true;                                // set to true for progress indicator display logic //
+DisplayNoFileSelected = false;
+Message = $"{selectedFile.Name} file selected";     // message that given file was selected //
+
+if (selectedFile is not null)
+{
+ShowProgressBar = true;                             // variable to show MudProgress bar on razor component //
+
+
+try
+{
+
+    Stream stream = selectedFile.OpenReadStream(250000000); // populate stream object with file. Limit size to 250 MBs //
+    var fileName = $"{System.DateTime.Now.Ticks.ToString()}_{selectedFile.Name}"; // prepend the date in ticks to ensure 
+                                                                                  // filename uniqueness
+    var filePath = $"{env.WebRootPath}\\submissions\\";    // set the filepath to the submissions folder
+    var fullPath = Path.Combine(filePath, fileName);       // add the filename to the filepath
+    FileStream fs = File.Create(fullPath);                 // FileStream object reads and writes files in c#
+    await stream.CopyToAsync(fs);                          // Copy the file (stream) to the FileStream object
+
+    stream.Close();                                        // Close the stream
+    fs.Close();                                            // Close the FileStream
+    theFileName = fileName;                                // Populate the FilePath on the model
+    fileUploadModel.FilePath = fullPath;
+
+    Message = $"{selectedFile.Name} file uploaded to server"; // create a success message
+    ShowProgressBar = false;                                  // Hide the progress bar
+    this.StateHasChanged();                                   // Re-rended the component to show the changes
+
+}
+
+catch (Exception ex)                                    // Catch, handle and log any errors
+{
+    SaveError = $"Error uploading file:{ex.Message}";   
+    Logger.LogError(ex, "Error uploading file");
+
+}
+
+}
+else                                                    // Exit the handler if no file is selected
+{
+SaveError = $"No File Selected for Upload";
+DisplayNoFileSelected = true;
+}
+
+}
+```
+24. Add logic for File Download.
+```
+private IJSObjectReference? module;                                 // Create a reference to a JavaScript object //
+
+protected override async Task OnAfterRenderAsync(bool firstRender) // Is invoked each time the component renders
+{                                                                  
+    if (firstRender)
+    {
+        module = await JS.InvokeAsync<IJSObjectReference>("import", // Import the JavaScript file //
+            "../js/scripts.js");
+    }
+    
+private async Task DownloadFileFromURL(string fileUrl)              // get fileUrl from MudForm //
+{
+    if (fileUrl is not null)
+    {
+        try
+        {
+            var startFileName = fileUrl.LastIndexOf("\\");          // Find the starting position of the filename //
+            var fileName = fileUrl.Substring(startFileName);        // Extract the file name from the string
+            var fileURL = "\\submissions\\" + fileName;             // Add the submissions folder to the filepath
+            await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL); //
+
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"There is no file to download:{ex.Message}";
+            Logger.LogError(ex, "There is no file to download");
+        }
+    }
+    else
+    {
+        SaveError = $"There is no file to download.";
+    }
+}
+
+```
