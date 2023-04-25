@@ -1,3 +1,5 @@
+### [[Back to Index]](Index.MD)
+
 ## Creating Razor Components for CRUD Operations
 
 Razor components that handle FK relationships have the added complexity of

@@ -1,3 +1,5 @@
+### [[Back to Index]](Index.MD)
+
 ## Configuring a SQL connection in Entity Framework
 
  

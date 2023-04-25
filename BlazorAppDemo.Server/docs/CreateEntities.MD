@@ -1,3 +1,5 @@
+### [[Back to Index]](Index.MD)
+
 ## Create Entities
 
 1. Create a new folder in **BlazorAppDemo.Core** called "Entities"

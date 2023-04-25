@@ -1,3 +1,5 @@
+### [[Back to Index]](Index.MD)
+
 ## Implement Serilogs
 
 Serilogs are NuGet package that you can use to implement logging in a Blazor Application.

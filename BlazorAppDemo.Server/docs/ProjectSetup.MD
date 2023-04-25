@@ -1,4 +1,6 @@
-﻿## Setting Up a Blazor Server Project
+﻿### [[Back to Index]](Index.MD)
+
+## Setting Up a Blazor Server Project
 
 ### Initialize the Project
 

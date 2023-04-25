@@ -1,3 +1,5 @@
+### [[Back to Index]](Index.MD)
+
 ## Create Razor Component (Web Templates)
 
  
