@@ -369,6 +369,7 @@ file changes.
             OnClick="@(()=>DownloadFileFromURL(@fileUploadModel.FilePath))">
         Download File
     </MudButton>
+}
 ```
 * The conditional **@if** statement will be true and show the download button, if the
  FilePath value of the **FileUploadModel.FilePath** instance has been populated.
