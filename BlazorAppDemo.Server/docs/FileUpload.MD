@@ -467,7 +467,7 @@ using MudBlazor;
 
 namespace BlazorAppDemo.Server.Pages.Admin.FileUploads;
 ```
-21. Change the class definition to "public partial class', instantiate the variables
+21. Change the class definition to **public partial class**, instantiate the variables
 add the parameters, and inject the appropriate services.
 ```
 public partial class AddOrUpdateFileUploadDialog
