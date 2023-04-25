@@ -572,25 +572,25 @@ try
 {
 
     Stream stream = selectedFile.OpenReadStream(250000000); // populate stream object with file. Limit size to 250 MBs //
-    var fileName = $"{System.DateTime.Now.Ticks.ToString()}_{selectedFile.Name}"; // prepend the date in ticks to ensure 
-                                                                                  // filename uniqueness
-    var filePath = $"{env.WebRootPath}\\submissions\\";    // set the filepath to the submissions folder
-    var fullPath = Path.Combine(filePath, fileName);       // add the filename to the filepath
-    FileStream fs = File.Create(fullPath);                 // FileStream object reads and writes files in c#
-    await stream.CopyToAsync(fs);                          // Copy the file (stream) to the FileStream object
+    var fileName = $"{System.DateTime.Now.Ticks.ToString()}_{selectedFile.Name}"; // prepend the date in ticks to ensure //
+                                                                                  // filename uniqueness                 //     
+    var filePath = $"{env.WebRootPath}\\submissions\\";    // set the filepath to the submissions folder //
+    var fullPath = Path.Combine(filePath, fileName);       // add the filename to the filepath //
+    FileStream fs = File.Create(fullPath);                 // FileStream object reads and writes files in c# //
+    await stream.CopyToAsync(fs);                          // Copy the file (stream) to the FileStream object //
 
-    stream.Close();                                        // Close the stream
-    fs.Close();                                            // Close the FileStream
-    theFileName = fileName;                                // Populate the FilePath on the model
+    stream.Close();                                        // Close the stream //
+    fs.Close();                                            // Close the FileStream //
+    theFileName = fileName;                                // Populate the FilePath on the model //
     fileUploadModel.FilePath = fullPath;
 
-    Message = $"{selectedFile.Name} file uploaded to server"; // create a success message
-    ShowProgressBar = false;                                  // Hide the progress bar
-    this.StateHasChanged();                                   // Re-rended the component to show the changes
+    Message = $"{selectedFile.Name} file uploaded to server"; // create a success message //
+    ShowProgressBar = false;                                  // Hide the progress bar //
+    this.StateHasChanged();                                   // Re-rended the component to show the changes //
 
 }
 
-catch (Exception ex)                                    // Catch, handle and log any errors
+catch (Exception ex)                                    // Catch, handle and log any errors //
 {
     SaveError = $"Error uploading file:{ex.Message}";   
     Logger.LogError(ex, "Error uploading file");
@@ -598,7 +598,7 @@ catch (Exception ex)                                    // Catch, handle and log
 }
 
 }
-else                                                    // Exit the handler if no file is selected
+else                                                    // Exit the handler if no file is selected //
 {
 SaveError = $"No File Selected for Upload";
 DisplayNoFileSelected = true;
@@ -610,7 +610,7 @@ DisplayNoFileSelected = true;
 ```
 private IJSObjectReference? module;                                 // Create a reference to a JavaScript object //
 
-protected override async Task OnAfterRenderAsync(bool firstRender) // Is invoked each time the component renders
+protected override async Task OnAfterRenderAsync(bool firstRender) // Is invoked each time the component renders //
 {                                                                  
     if (firstRender)
     {
@@ -625,21 +625,201 @@ private async Task DownloadFileFromURL(string fileUrl)              // get fileU
         try
         {
             var startFileName = fileUrl.LastIndexOf("\\");          // Find the starting position of the filename //
-            var fileName = fileUrl.Substring(startFileName);        // Extract the file name from the string
-            var fileURL = "\\submissions\\" + fileName;             // Add the submissions folder to the filepath
-            await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL); //
+            var fileName = fileUrl.Substring(startFileName);        // Extract the file name from the string //
+            var fileURL = "\\submissions\\" + fileName;             // Add the submissions folder to the filepath //
+            await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL); // Invoke the js function triggerFileDownload //
+                                                                                // and pass it the fileName and FileURL.      //
+                                                                                // The script then creates an anchor tag      //
+                                                                                // that is used to download the file.         //
 
         }
         catch (Exception ex)
         {
-            SaveError = $"There is no file to download:{ex.Message}";
+            SaveError = $"There is no file to download:{ex.Message}"; // Catch, handle and log any errors //
             Logger.LogError(ex, "There is no file to download");
         }
     }
     else
     {
-        SaveError = $"There is no file to download.";
+        SaveError = $"There is no file to download.";   // Exit the handler if no file is selected //
     }
+}
+
+```
+25. Below is the complete code for **AddOrUpdateFileUploadDialog.razor.cs**
+```
+using BlazorAppDemo.Core.Interfaces;
+using BlazorAppDemo.Shared.Print3dModels;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
+using Microsoft.JSInterop;
+using MudBlazor;
+
+
+namespace BlazorAppDemo.Server.Pages.Admin.FileUploads;
+
+public partial class AddOrUpdateFileUploadDialog
+{
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public FileUploadModel fileUploadModel { get; set; } = new FileUploadModel();
+
+
+    [Inject] private IPrint3dRepository DataService { get; set; }
+    [Inject] private NavigationManager NavigationManager { get; set; }
+    [Inject] private ILogger<AddOrUpdateFileUploadDialog> Logger { get; set; }
+
+
+    public string SaveError { get; set; }
+    public bool FileSelected { get; set; } = false;
+    public bool DisplayNoFileSelected { get; set; } = false;
+    public bool ShowProgressBar { get; set; } = false;
+
+    private void Cancel()
+    {
+        MudDialog.Cancel();
+    }
+
+    protected async Task Submit()
+    {
+        var dialog = DialogResult.Ok(fileUploadModel);
+        FileUploadModel? fileUploadMod = dialog.Data as FileUploadModel;
+
+        if (fileUploadModel.FileUploadId == 0)
+        {
+            try
+            {
+                await DataService.CreateFileUploadAsync(fileUploadMod);
+                MudDialog.Close();
+            }
+            catch (Exception ex)
+            {
+                SaveError = $"Error creating File:{ex.Message}";
+            }
+
+        }
+        else
+        {
+            try
+            {
+                await DataService.UpdateFileUploadAsync(fileUploadMod);
+                MudDialog.Close();
+            }
+
+            catch (Exception ex)
+            {
+                SaveError = $"Error updating File:{ex.Message}";
+            }
+
+        }
+
+    }
+
+    // upload logic
+    string Message = "No file selected";
+    string theFileName = "";
+
+    IBrowserFile? selectedFile;
+    private async void OnInputFileChange(InputFileChangeEventArgs e)
+    {
+    if (fileUploadModel.FilePath != null)
+        try
+        {
+            if (File.Exists(fileUploadModel.FilePath))
+            {
+                File.Delete(fileUploadModel.FilePath);
+            }
+
+        }
+        catch (Exception ex)
+        {
+            SaveError = $"Error deleting file:{ex.Message}";
+            Logger.LogError(ex, "Error deleting file");
+
+        }
+
+        selectedFile = e.File;
+        FileSelected = true;
+        DisplayNoFileSelected = false;
+        Message = $"{selectedFile.Name} file selected";
+
+        if (selectedFile is not null)
+        {
+            ShowProgressBar = true;
+
+            try
+            {
+
+                Stream stream = selectedFile.OpenReadStream(250000000);
+                var fileName = $"{System.DateTime.Now.Ticks.ToString()}_{selectedFile.Name}";
+                var filePath = $"{env.WebRootPath}\\submissions\\";
+                var fullPath = Path.Combine(filePath, fileName);
+                FileStream fs = File.Create(fullPath);
+                await stream.CopyToAsync(fs);
+
+                stream.Close();
+                fs.Close();
+                theFileName = fileName;
+                fileUploadModel.FilePath = fullPath;
+
+                Message = $"{selectedFile.Name} file uploaded to server";
+                ShowProgressBar = false;
+                this.StateHasChanged();
+
+            }
+
+            catch (Exception ex)
+            {
+                SaveError = $"Error uploading file:{ex.Message}";
+                Logger.LogError(ex, "Error uploading file");
+
+            }
+            ShowProgressBar = false;
+
+        }
+        else
+        {
+            SaveError = $"No File Selected for Upload";
+            DisplayNoFileSelected = true;
+        }
+
+    }
+
+    // download logic
+    private IJSObjectReference? module;
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            module = await JS.InvokeAsync<IJSObjectReference>("import",
+                "../js/scripts.js");
+        }
+    }
+
+    private async Task DownloadFileFromURL(string fileUrl)
+    {
+        if (fileUrl is not null)
+        {
+            try
+            {
+                var startFileName = fileUrl.LastIndexOf("\\");
+                var fileName = fileUrl.Substring(startFileName);
+                var fileURL = "\\submissions\\" + fileName;
+                await JS.InvokeVoidAsync("triggerFileDownload", fileName, fileURL);
+
+            }
+            catch (Exception ex)
+            {
+                SaveError = $"There is no file to download:{ex.Message}";
+                Logger.LogError(ex, "There is no file to download");
+            }
+        }
+        else
+        {
+            SaveError = $"There is no file to download.";
+        }
+    }
+
 }
 
 ```
