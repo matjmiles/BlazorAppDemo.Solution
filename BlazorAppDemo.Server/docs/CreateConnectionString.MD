@@ -13,7 +13,7 @@ SQL database.
 
 ### Remote Database
 `
-"Print3dConnection": "Data Source=glass.byui.edu;Initial Catalog=LibraryThreeDimensionalPrinting; TrustServerCertificate=True; Integrated Security=True"
+"Print3dConnection": "Data Source=somedbserver.byui.edu;Initial Catalog=theSQLDB; TrustServerCertificate=True; Integrated Security=True"
 `
 
 ---
