@@ -30,7 +30,7 @@ SQL database.
     }
   },
   "ConnectionStrings": {
-    "Print3dConnectionNew": "Data Source=glass.byui.edu;Initial Catalog=LibraryThreeDimensionalPrinting; TrustServerCertificate=True; Integrated Security=True"
+    "Print3dConnectionNew": "Data Source=SomeDBServer;Initial Catalog=theSQLDB; TrustServerCertificate=True; Integrated Security=True"
 
   }
   ```

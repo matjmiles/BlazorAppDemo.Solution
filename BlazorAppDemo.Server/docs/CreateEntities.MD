@@ -4,7 +4,7 @@
 
 1. Create a new folder in **BlazorAppDemo.Core** called "Entities"
 
-![Create Project](img/Entities/01Entities.png)
+![Create Entity](img/Entities/01Entities.png)
 
 2. We need to create an entity class that corresponds to each 
 table in our database.To do this right click on the entity folder > 
