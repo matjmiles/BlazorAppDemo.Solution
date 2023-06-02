@@ -20,7 +20,20 @@
 
 ![Publish Project](img/DeployIIS/13ProfileComplete.png)
 
+5. Click on "Show All Settings"
 
+![Publish Project](img/DeployIIS/14ShowAllSettings.png)
+
+6. Match the settings as shown
+
+![Publish Project](img/DeployIIS/15SetSettings.png)
+
+7. Publish the project
+
+![Publish Project](img/DeployIIS/16PublishProj.png)
+
+8. Copy the files from the publish directory to a folder on the IIS Server. 
+It must be under **c:\\inetpub\wwwroot**. We will create a new folder called blazorTest
 
 
 ### SETUP IIS SERVER
