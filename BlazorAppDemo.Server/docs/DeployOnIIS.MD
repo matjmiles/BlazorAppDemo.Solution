@@ -78,3 +78,15 @@ not click the appropriate box then click the "Install" button
 
 ![Create Entity](img/DeployIIS/09RestartIIS.png)
 
+10. Copy files to a directory under **\\[server name]\inetpub\wwwroot** In 
+this case we called the folder blazorTest. Copy the files that you published 
+earlier to this directory
+
+![Create Entity](img/DeployIIS/17CopyFiles.png)
+
+11. Open up the IIS Manager, right click on the folder you created, and
+select **Convert to Application**
+
+![Create Entity](img/DeployIIS/18ConvertToApplication.png)
+
+12
